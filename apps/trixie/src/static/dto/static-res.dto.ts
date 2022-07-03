@@ -1,7 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { IStaticResDto } from '@pdoc/types';
 
 @ObjectType()
-export class StaticResDto {
+export class StaticResDto implements IStaticResDto {
   @Field()
   public _id: string;
   @Field()

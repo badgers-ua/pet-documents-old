@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { EVENT } from '../_constants';
+import { EVENT } from '@pdoc/types';
 
 export type EventDocument = Event & mongoose.Document;
 export type AggregatedEventDocument = Event &

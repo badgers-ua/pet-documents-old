@@ -3,9 +3,9 @@ import Tabs from '@mui/material/Tabs';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDemoData } from '@mui/x-data-grid-generator';
 import { useState } from 'react';
-import { EVENT } from '../types';
 import { useTranslation } from 'react-i18next';
 import { getEventLabel } from '../utils/factory.utils';
+import { EVENT } from '@pdoc/types';
 
 const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
 

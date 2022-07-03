@@ -1,17 +1,8 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-
-export enum SPECIES {
-  CAT,
-  DOG,
-}
-
-export enum GENDER {
-  MALE,
-  FEMALE,
-}
+import { IOwner } from '@pdoc/types';
 
 @ObjectType()
-export class Owner {
+export class Owner implements IOwner {
   @Field()
   _id: string;
   @Field()

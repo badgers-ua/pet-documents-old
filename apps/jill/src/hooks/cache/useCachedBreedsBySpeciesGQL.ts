@@ -1,8 +1,9 @@
-import { DropDownOption, SPECIES } from '../../types';
+import { DropDownOption } from '../../types';
 import { GET_BREEDS_BY_SPECIES_SCHEMA } from '../api/schemas';
 import sortBy from 'lodash/sortBy';
 import { mapStaticArrayToDropDownOptions } from '../../utils/formatter.utils';
 import { useApolloClient } from '@apollo/client/react/hooks/useApolloClient';
+import { SPECIES } from '@pdoc/types';
 
 const useCachedBreedsBySpeciesGQL = () => {
   const apolloClient = useApolloClient();

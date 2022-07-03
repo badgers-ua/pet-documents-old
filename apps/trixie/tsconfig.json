@@ -12,6 +12,9 @@
     "baseUrl": "./",
     "incremental": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@pdoc/types": ["../../libs/types/src"]
+    }
   }
 }

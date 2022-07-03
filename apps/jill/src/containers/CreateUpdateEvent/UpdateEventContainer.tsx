@@ -1,11 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  DropDownOption,
-  EVENT,
-  EventResDto,
-  PatchEventReqDto,
-} from '../../types';
+import { DropDownOption, PatchEventReqDto } from '../../types';
 import CreateUpdateEventForm, {
   CRUEventFormValues,
 } from './_CreateUpdateEventForm';
@@ -15,6 +10,7 @@ import { getEventLabel } from '../../utils/factory.utils';
 import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
 import useGetEventByIdGQL from '../../hooks/api/useGetEventByIdGQL';
 import useUpdateEventGQL from '../../hooks/api/useUpdateEventGQL';
+import { EVENT, IEventResDto } from '@pdoc/types';
 
 export const UpdateEventContainer = () => {
   const { t } = useTranslation();
@@ -53,7 +49,7 @@ export const UpdateEventContainer = () => {
 
   const {
     getEvent: { type, date, description },
-  }: { getEvent: EventResDto } = event!;
+  }: { getEvent: IEventResDto } = event!;
 
   const initialValues: CRUEventFormValues = {
     event: { label: getEventLabel(type), value: type } as DropDownOption<EVENT>,

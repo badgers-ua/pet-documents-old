@@ -4,7 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { EventResDto } from '../types';
 import { DateTime } from 'luxon';
 import Card, { CardProps } from '@mui/material/Card';
 import EditIcon from '@mui/icons-material/Edit';
@@ -32,6 +31,7 @@ import Collapse from '@mui/material/Collapse';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getUserDateFormat } from '../utils/date.utils';
 import { getEventLabel } from '../utils/factory.utils';
+import { IEventResDto } from '@pdoc/types';
 
 type PetEventsCardProps = {
   petId: string;
@@ -58,7 +58,7 @@ const EventsCardHeader = styled(Box)(({ theme }) => ({
 
 const PetEventsCard = (props: PetEventsCardProps) => {
   const { events, petId, onEventDeleteClick, ...cardProps } = props;
-  const [filteredEvents, setFilteredEvents] = useState<EventResDto[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<IEventResDto[]>([]);
 
   const { t } = useTranslation();
 
@@ -67,7 +67,7 @@ const PetEventsCard = (props: PetEventsCardProps) => {
   }, [events]);
 
   const handleSearchEvent = (val: string) => {
-    const filteredEvents: EventResDto[] = events.filter(
+    const filteredEvents: IEventResDto[] = events.filter(
       ({ date, description, type }) => {
         const descriptionMatched: boolean = (description ?? '')
           .toLowerCase()
@@ -137,8 +137,8 @@ const PetEventsCard = (props: PetEventsCardProps) => {
 export default PetEventsCard;
 
 type RowProps = {
-  event: EventResDto;
-  onEventDeleteClick: (event: EventResDto) => void;
+  event: IEventResDto;
+  onEventDeleteClick: (event: IEventResDto) => void;
 };
 
 const Row = (props: RowProps) => {
@@ -246,8 +246,8 @@ const Row = (props: RowProps) => {
 };
 
 type CollapsibleTableProps = {
-  events: EventResDto[];
-  onEventDeleteClick: (event: EventResDto) => void;
+  events: IEventResDto[];
+  onEventDeleteClick: (event: IEventResDto) => void;
 };
 
 const CollapsibleTable = (props: CollapsibleTableProps) => {
@@ -277,7 +277,7 @@ const CollapsibleTable = (props: CollapsibleTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {events.map((event: EventResDto) => (
+          {events.map((event: IEventResDto) => (
             <Row
               key={event._id}
               event={event}

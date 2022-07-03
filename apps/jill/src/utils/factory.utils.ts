@@ -1,7 +1,8 @@
-import { DropDownOption, EVENT, GENDER, SPECIES } from '../types';
+import { DropDownOption } from '../types';
 import sortBy from 'lodash/sortBy';
 import { getGenderLabel } from './formatter.utils';
 import i18next from 'i18next';
+import { EVENT, GENDER, SPECIES } from '@pdoc/types';
 
 export const getEnumIntegerValues = <T>(_enum: object) =>
   Object.values(_enum).filter((value: string | number) =>

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { GENDER, SPECIES } from '../../shared/types';
+import { GENDER, SPECIES } from '@pdoc/types';
 
 export type PetDocument = Pet & mongoose.Document;
 

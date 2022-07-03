@@ -1,6 +1,5 @@
 import React from 'react';
 import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
-import { EventResDto } from '../types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -12,6 +11,7 @@ import { DateTime } from 'luxon';
 import { getUserDateFormat } from '../utils/date.utils';
 import { useTranslation } from 'react-i18next';
 import { getEventLabel } from '../utils/factory.utils';
+import { IEventResDto } from '@pdoc/types';
 
 const EventListContainer = () => {
   const { todayEvents, upcomingEvents } = usePetsAndUpcomingEventsGQL();
@@ -31,7 +31,7 @@ const EventListContainer = () => {
 };
 
 interface EventsHomeGridProps {
-  events: EventResDto[];
+  events: IEventResDto[];
   title: string;
 }
 
@@ -42,7 +42,7 @@ const EventListGrid = (props: EventsHomeGridProps) => {
     <Box pt={2}>
       <Typography variant="h6">{title}</Typography>
       <Grid container spacing={2} pt={2}>
-        {events.map(({ _id, petId, type, date, petName }: EventResDto) => (
+        {events.map(({ _id, petId, type, date, petName }: IEventResDto) => (
           <Grid item xs={12} sm={6} md={4} key={_id}>
             {/* TODO: Ripple effect */}
             <Link

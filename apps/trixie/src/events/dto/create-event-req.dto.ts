@@ -8,7 +8,6 @@ import {
   Max,
   IsMongoId,
 } from 'class-validator';
-import { EVENT } from '../_constants';
 import { Transform } from 'class-transformer';
 import {
   dateDtoTransformFormatter,
@@ -16,6 +15,7 @@ import {
 } from '../../utils/formatter.utils';
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { GetEventsReqDto } from './get-events-req.dto';
+import { EVENT } from '@pdoc/types';
 
 @InputType()
 export class CreateEventReqDto extends GetEventsReqDto {

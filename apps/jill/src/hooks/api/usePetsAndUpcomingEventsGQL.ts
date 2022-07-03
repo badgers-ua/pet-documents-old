@@ -1,18 +1,19 @@
 import { useQuery } from '@apollo/client';
 import sortBy from 'lodash/sortBy';
-import { EventResDto, isLoading, PetPreviewResDto } from '../../types';
+import { isLoading } from '../../types';
 import { isToday } from '../../utils/date.utils';
 import { PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL } from './schemas';
+import { IEventResDto, IPetPreviewResDto } from '@pdoc/types';
 
 export type PetsAndUpcomingEvents = {
-  pets: PetPreviewResDto[];
-  upcomingEvents: EventResDto[];
-  todayEvents: EventResDto[];
+  pets: IPetPreviewResDto[];
+  upcomingEvents: IEventResDto[];
+  todayEvents: IEventResDto[];
 } & isLoading;
 
 interface PetsAndUpcomingEventsGQLRes {
-  getPets: PetPreviewResDto[];
-  getUpcomingEvents: EventResDto[];
+  getPets: IPetPreviewResDto[];
+  getUpcomingEvents: IEventResDto[];
 }
 
 const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
@@ -28,15 +29,15 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
     getUpcomingEvents: [],
   };
 
-  const sortedPets: PetPreviewResDto[] = sortBy(pets, 'name') ?? [];
+  const sortedPets: IPetPreviewResDto[] = sortBy(pets, 'name') ?? [];
 
-  const sortedUpcomingEvents: EventResDto[] =
+  const sortedUpcomingEvents: IEventResDto[] =
     sortBy(
       upcomingEvents.filter(({ date }) => !isToday(date)),
       'date',
     ) ?? [];
 
-  const sortedTodayEvents: EventResDto[] =
+  const sortedTodayEvents: IEventResDto[] =
     sortBy(
       upcomingEvents.filter(({ date }) => isToday(date)),
       'date',

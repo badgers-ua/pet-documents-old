@@ -1,8 +1,9 @@
 import React from 'react';
-import { DropDownOption, GENDER, SPECIES, StaticResDto } from '../types';
+import { DropDownOption } from '../types';
 import { ReactComponent as CatSVG } from '../icons/cat.svg';
 import { ReactComponent as DogSVG } from '../icons/dog.svg';
 import i18next from 'i18next';
+import { GENDER, IStaticResDto, SPECIES } from '@pdoc/types';
 
 /**
  *
@@ -28,16 +29,16 @@ export const getPetPreviewAvatarBySpecies = (species: SPECIES, size = 48) => {
 export const getGenderLabel = (gender: GENDER) => {
   const dictionary = {
     [GENDER.MALE]: i18next.t('male'),
-    [GENDER.Female]: i18next.t('female'),
+    [GENDER.FEMALE]: i18next.t('female'),
   };
   return dictionary[gender];
 };
 
 /**
  *
- * @param staticArr {StaticResDto[]}
+ * @param staticArr {IStaticResDto[]}
  */
-export const mapStaticArrayToDropDownOptions = (staticArr: StaticResDto[]) =>
+export const mapStaticArrayToDropDownOptions = (staticArr: IStaticResDto[]) =>
   staticArr.map(
     ({ _id, name }) => ({ label: name, value: _id } as DropDownOption<string>),
   );

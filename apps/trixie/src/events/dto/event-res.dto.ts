@@ -1,6 +1,6 @@
-import { EVENT } from '../_constants';
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
 import { AggregatedEventDocument } from '../schemas/event.schema';
+import { EVENT, IEventResDto } from '@pdoc/types';
 
 @ObjectType()
 export class CreatedEventResDto {
@@ -23,7 +23,7 @@ export class PatchedEventResDto {
 }
 
 @ObjectType()
-export class EventResDto {
+export class EventResDto implements IEventResDto {
   @Field()
   public _id: string;
   @Field(() => Int)

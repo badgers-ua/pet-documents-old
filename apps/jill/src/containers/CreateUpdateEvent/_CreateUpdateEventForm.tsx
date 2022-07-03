@@ -11,10 +11,11 @@ import { DateTime } from 'luxon';
 import LocalTextField from '../../components/LocalTextField';
 import Button from '@mui/material/Button';
 import { FormikHelpers } from 'formik/dist/types';
-import { DropDownOption, EVENT } from '../../types';
+import { DropDownOption } from '../../types';
 import * as Yup from 'yup';
 import i18next from 'i18next';
 import { getEventOptions } from '../../utils/factory.utils';
+import { EVENT } from '@pdoc/types';
 
 export interface CRUEventFormValues {
   event: DropDownOption<EVENT> | null;

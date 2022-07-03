@@ -1,23 +1,3 @@
-export enum EVENT {
-  VACCINATION,
-  DEWORMING,
-  TICK_TREATMENT,
-  VACCINATION_AGAINST_RABIES,
-  VETERINARIAN_EXAMINATION,
-  SHOW,
-  REWARD,
-  PHOTO_SESSION,
-  TRAINING,
-  START_OF_TREATMENT,
-  END_OF_TREATMENT,
-  OPERATION,
-  CHILDBIRTH,
-  STERILIZATION,
-  PAIRING,
-  ESTRUS,
-  MOLT,
-}
-
 export const EVENT_CRUD_ERROR =
   'Event not found, or you have not the permissions to complete this action.';
 

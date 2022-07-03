@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client/react/hooks/useLazyQuery';
-import { SPECIES } from '../../types';
 import { GET_BREEDS_BY_SPECIES_SCHEMA } from './schemas';
 import { useMemo } from 'react';
+import { SPECIES } from '@pdoc/types';
 
 const useGetBreedsBySpeciesGQL = () => {
   const [getBreedsBySpecies, { loading: isLoadingBreeds }] = useLazyQuery(

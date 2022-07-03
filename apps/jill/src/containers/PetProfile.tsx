@@ -4,8 +4,6 @@ import {
   DeleteEventReqDto,
   DeleteEventResDto,
   DeletePetReqDto,
-  EventResDto,
-  PetResDto,
   RemoveOwnerReqDto,
   RemoveOwnerResDto,
 } from '../types';
@@ -40,10 +38,11 @@ import {
   REMOVE_OWNER_SCHEMA,
 } from '../hooks/api/schemas';
 import { useActiveProfileTabStore } from '../providers/store/active-pet-profile-tab/ActivePetProfileTabProvider';
+import { IEventResDto, IPetResDto } from '@pdoc/types';
 
 interface PetProfileGQLRes {
-  getPet: PetResDto;
-  getEventsByPet: EventResDto[];
+  getPet: IPetResDto;
+  getEventsByPet: IEventResDto[];
 }
 
 interface EmailFormDialogValues {
@@ -95,7 +94,7 @@ const PetProfile = () => {
   const petRemovedCacheUpdate = (cache: ApolloCache<any>) => {
     const petProfileCacheId = cache.identify({
       id: data?.getPet?._id,
-      __typename: data?.getPet?.__typename,
+      __typename: (data?.getPet as any)?.__typename,
     });
     // TODO: migrate Formik to https://react-hook-form.com/ (useFormik causes re-rendering issues)
     setTimeout(() => {
@@ -140,7 +139,7 @@ const PetProfile = () => {
         // TODO: migrate Formik to https://react-hook-form.com/ (useFormik causes re-rendering issues)
         setTimeout(() => {
           // TODO: Dynamic id
-          cache.evict({ id: `EventResDto:${data?.deleteEvent?._id}` });
+          cache.evict({ id: `IEventResDto:${data?.deleteEvent?._id}` });
           cache.gc();
         });
       },
@@ -160,7 +159,7 @@ const PetProfile = () => {
   const [deletePetDialogOpen, setDeletePetDialogOpen] =
     useState<boolean>(false);
   const [deleteEventDialogState, setDeleteEventDialogState] = useState<{
-    event: EventResDto | null;
+    event: IEventResDto | null;
     isOpen: boolean;
   }>({ event: null, isOpen: false });
 
@@ -257,10 +256,10 @@ const PetProfile = () => {
   };
 
   const toggleDeleteEventConfirmationDialog = (
-    eventResDto: EventResDto | null,
+    IEventResDto: IEventResDto | null,
   ) => {
     setDeleteEventDialogState({
-      event: eventResDto,
+      event: IEventResDto,
       isOpen: !deleteEventDialogState.isOpen,
     });
   };

@@ -1,12 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  DropDownOption,
-  GENDER,
-  PatchPetReqDto,
-  PetResDto,
-  SPECIES,
-} from '../../types';
+import { DropDownOption, PatchPetReqDto } from '../../types';
 import { getGenderLabel } from '../../utils/formatter.utils';
 import { DateTime } from 'luxon';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,6 +11,7 @@ import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
 import useGetPetByIdGQL from '../../hooks/api/useGetPetByIdGQL';
 import useUpdatePetGQL from '../../hooks/api/useUpdatePetGQL';
 import CreateUpdatePetForm, { CRUPetFormValues } from './_CreateUpdatePetForm';
+import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
 
 const UpdatePetContainer = () => {
   const { id: petId } = useParams<{ id: string }>();
@@ -77,7 +72,7 @@ const UpdatePetContainer = () => {
       colour,
       notes,
     },
-  }: { getPet: PetResDto } = pet;
+  }: { getPet: IPetResDto } = pet;
 
   const initialValues: CRUPetFormValues = {
     name,

@@ -6,7 +6,7 @@ import { DogFact, DogFactDocument } from './schemas/dog-facts.schema';
 import { DogBreed, DogBreedDocument } from './schemas/dog-breed.schema';
 import { CatBreed, CatBreedDocument } from './schemas/cat-breed.schema';
 import { StaticResDto } from './dto/static-res.dto';
-import { SPECIES } from '../shared/types';
+import { SPECIES } from '@pdoc/types';
 
 @Injectable()
 export class StaticService {

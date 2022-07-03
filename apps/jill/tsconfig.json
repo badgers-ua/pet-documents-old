@@ -22,5 +22,8 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "paths": {
+    "@pdoc/types": ["../../libs/types/src"]
+  }
 }

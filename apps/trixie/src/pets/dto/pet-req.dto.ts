@@ -1,6 +1,3 @@
-// @ts-ignore
-// @ts-ignore
-
 import {
   IsNotEmpty,
   IsNumber,
@@ -14,9 +11,10 @@ import { Transform } from 'class-transformer';
 import {
   numberedEnumValueLength,
   numberTransformFormatter,
-} from '../../utils/formatter.utils';
-import { GENDER, SPECIES } from '../../shared/types';
+} from 'src/utils/formatter.utils';
 import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql';
+import { GENDER, SPECIES } from '@pdoc/types';
+
 const GraphQLUpload = require('graphql-upload/GraphQLUpload.js');
 
 @InputType()

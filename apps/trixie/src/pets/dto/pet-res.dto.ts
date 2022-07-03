@@ -1,5 +1,6 @@
-import { GENDER, Owner, SPECIES } from '../../shared/types';
+import { Owner } from 'src/shared/types';
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
+import { GENDER, IPetResDto, IPetPreviewResDto, SPECIES } from '@pdoc/types';
 
 @ObjectType()
 export class Breed {
@@ -71,7 +72,7 @@ class PetResponseBase {
 }
 
 @ObjectType()
-export class PetResDto extends PetResponseBase {
+export class PetResDto extends PetResponseBase implements IPetResDto {
   @Field(() => [Owner])
   public owners: Owner[];
   @Field(() => Breed, { nullable: true })
@@ -108,7 +109,10 @@ export class PetResDto extends PetResponseBase {
 
 // TODO: Should be one query with PetResDto
 @ObjectType()
-export class PetPreviewResDto extends PetResponseBase {
+export class PetPreviewResDto
+  extends PetResponseBase
+  implements IPetPreviewResDto
+{
   @Field(() => [String])
   public owners: string[];
   @Field({ nullable: true })

@@ -3,7 +3,7 @@ import useGetBreedsBySpeciesGQL from '../../hooks/api/useGetBreedsBySpeciesGQL';
 import useCachedBreedsBySpeciesGQL from '../../hooks/cache/useCachedBreedsBySpeciesGQL';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect } from 'react';
-import { DropDownOption, GENDER, SPECIES } from '../../types';
+import { DropDownOption } from '../../types';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -24,6 +24,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import * as Yup from 'yup';
 import i18next from 'i18next';
+import { GENDER, SPECIES } from '@pdoc/types';
 
 export interface CRUPetFormValues {
   name: string;

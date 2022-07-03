@@ -1,4 +1,3 @@
-import { PetResDto } from '../types';
 import List from '@mui/material/List';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReactComponent as GenderIcon } from '../icons/gender.svg';
@@ -29,9 +28,10 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { getAge, getUserDateFormat } from '../utils/date.utils';
+import { IPetResDto } from '@pdoc/types';
 
 type PetInfoProps = {
-  pet: PetResDto;
+  pet: IPetResDto;
   petActions: PetActionsProps;
 } & CardProps;
 

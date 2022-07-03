@@ -1,0 +1,86 @@
+{
+  "name": "@pdoc/jill",
+  "version": "1.0.5",
+  "private": true,
+  "dependencies": {
+    "@pdoc/types": "1.0.0",
+    "@apollo/client": "^3.6.9",
+    "@date-io/luxon": "^2.14.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.6",
+    "@mui/x-data-grid": "^5.12.3",
+    "@mui/x-data-grid-generator": "^5.12.3",
+    "@mui/x-date-pickers": "^5.0.0-alpha.7",
+    "apollo3-cache-persist": "^0.14.0",
+    "datebook": "^7.0.8",
+    "firebase": "^9.8.4",
+    "formik": "^2.2.9",
+    "graphql": "^16.5.0",
+    "i18next": "^21.8.11",
+    "i18next-browser-languagedetector": "^6.1.4",
+    "lodash": "^4.17.21",
+    "luxon": "^2.4.0",
+    "notistack": "^2.0.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^11.17.4",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "reactfire": "^4.2.1",
+    "typeface-roboto": "^1.1.13",
+    "web-vitals": "^2.1.4",
+    "workbox-background-sync": "^6.5.3",
+    "workbox-broadcast-update": "^6.5.3",
+    "workbox-cacheable-response": "^6.5.3",
+    "workbox-core": "^6.5.3",
+    "workbox-expiration": "^6.5.3",
+    "workbox-google-analytics": "^6.5.3",
+    "workbox-navigation-preload": "^6.5.3",
+    "workbox-precaching": "^6.5.3",
+    "workbox-range-requests": "^6.5.3",
+    "workbox-routing": "^6.5.3",
+    "workbox-strategies": "^6.5.3",
+    "workbox-streams": "^6.5.3",
+    "yup": "^0.32.11",
+    "zustand": "^4.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.2.1",
+    "@types/jest": "^28.1.4",
+    "@types/lodash": "^4.14.182",
+    "@types/luxon": "^2.3.2",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/yup": "^0.29.14",
+    "@welldone-software/why-did-you-render": "^7.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "prettier -w src/"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -12,7 +12,8 @@
     "start": "turbo run start --parallel",
     "prepare": "husky install",
     "lint": "turbo run prettier:fix",
-    "trixie-start-prod": "yarn workspace @pdoc/trixie start:prod"
+    "trixie-start-prod": "yarn workspace @pdoc/trixie start:prod",
+    "graph": "turbo run build --graph=deps-graph.svg"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

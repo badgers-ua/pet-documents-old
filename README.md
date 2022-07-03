@@ -36,7 +36,7 @@ yarn trixie-start
 ### [jill:](apps/jill)
 1. Add `.env.development` file to the root of [jill](apps/jill) with following structure (without quotes):
    * `REACT_APP_PRODUCTION`="false"\
-     `REACT_APP_API_URL`="http://localhost:5001"\
+     `REACT_APP_API_URL`="http://localhost:5001" \
      `REACT_APP_FIREBASE_API_KEY`="Provided by firebase"\
      `REACT_APP_FIREBASE_AUTH_DOMAIN`="Provided by firebase"\
      `REACT_APP_FIREBASE_PROJECT_ID`="Provided by firebase"\

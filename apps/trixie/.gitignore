@@ -35,4 +35,5 @@ yarn-error.log*
 
 # Other
 .development.env
+.production.env
 src/assets/firebase-admin.json

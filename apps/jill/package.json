@@ -1,6 +1,6 @@
 {
   "name": "@pdoc/jill",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "dependencies": {
     "@pdoc/types": "1.0.0",

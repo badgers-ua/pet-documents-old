@@ -1,11 +1,13 @@
-import i18n from 'i18next';
+import i18n, { Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { NODE_ENV } from './types';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-const resources = {
+const resources: Resource = {
   en: {
     translation: {
+      en: 'English',
+      uk: 'Ukrainian',
       main: 'Main',
       signOut: 'Sign out',
       createPet: 'Create pet',
@@ -93,6 +95,8 @@ const resources = {
   },
   uk: {
     translation: {
+      en: 'Англійська',
+      uk: 'Українська',
       main: 'Головна',
       signOut: 'Вийти',
       createPet: 'Створити улюбленця',

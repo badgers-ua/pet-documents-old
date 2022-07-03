@@ -194,14 +194,14 @@ const LanguageMenu = () => {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const availableLanguages: string[] = Object.keys(i18n.store.data);
 
   return (
     <>
       <Button onClick={handleMenu} color="inherit">
-        {i18n.language}
+        {t(i18n.language)}
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -223,7 +223,7 @@ const LanguageMenu = () => {
         onClose={handleClose}
       >
         <Paper>
-          <MenuList dense>
+          <MenuList>
             {availableLanguages.map((l: string) => {
               return (
                 <MenuItem
@@ -234,7 +234,7 @@ const LanguageMenu = () => {
                   key={l}
                   sx={{
                     justifyContent:
-                      l === i18n.language ? 'space-evenly' : 'flex-end',
+                      l === i18n.language ? 'space-between' : 'flex-end',
                   }}
                 >
                   {l === i18n.language && (
@@ -242,7 +242,7 @@ const LanguageMenu = () => {
                       <Check />
                     </ListItemIcon>
                   )}
-                  {l.toUpperCase()}
+                  {t(l)}
                 </MenuItem>
               );
             })}

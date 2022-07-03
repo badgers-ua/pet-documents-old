@@ -1,4 +1,4 @@
-## Structure
+# Structure
 
 | Codebase              |                 Description                  |
 |:----------------------|:--------------------------------------------:|
@@ -6,7 +6,7 @@
 | [trixie](apps/trixie) |                 Nest.js API                  |
 | [types](libs/types)   |                Shared typings                |
 
-## Run Locally (order is required)
+# Run Locally (order is required)
 
 ### Pre Requirements
 Create a [firebase](https://firebase.google.com) project with enabled **Google Authentication** and **Storage bucket**
@@ -47,4 +47,18 @@ yarn trixie-start
 2. Run project:
 ```bash
 yarn jill-start
+```
+
+# Steps to add _app_ or _lib_ to monorepo
+1. Must be a typescript project
+2. Application should be created under [apps](./apps) folder
+3. Shared library should be created under [libs](./libs) folder
+4. Update [README.ME](./README.md) _**Structure**_ section with newly created project
+5. Following fields of `package.json` should be:
+   1. `"name": "@pdoc/your-lib-name"`
+   2. `"private": true`
+6. If you created a _lib_ please update [tsconfig.libs.json](./libs/tsconfig.libs.json) to include your new lib
+7. If you created an _app_ please add following line to newly created apps `tsconfig.json`:
+```bash
+"extends": "/libs/tsconfig.libs.json"
 ```

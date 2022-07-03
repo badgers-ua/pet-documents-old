@@ -13,7 +13,7 @@ Create a [firebase](https://firebase.google.com) project with enabled **Google A
 
 ---
 
-### [types](libs/types)
+### [types:](libs/types)
 Run project:
 ```bash
 yarn types-start

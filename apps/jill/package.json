@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "private": true,
   "dependencies": {
-    "@pdoc/types": "1.0.0",
+    "@pdoc/types": "*",
     "@apollo/client": "^3.6.9",
     "@date-io/luxon": "^2.14.0",
     "@emotion/react": "^11.9.3",
@@ -63,7 +63,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "prettier -w src/"
+    "prettier:fix": "prettier -w src/"
   },
   "eslintConfig": {
     "extends": [

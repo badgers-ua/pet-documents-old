@@ -58,6 +58,5 @@ export class PopulateStaticDbService {
     } catch (e) {
       console.log(`[ERROR POPULATING STATIC DB]: ${e}`);
     }
-    console.log('[STATIC DB POPULATED]');
   }
 }

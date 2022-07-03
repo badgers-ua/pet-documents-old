@@ -32,10 +32,29 @@ export class PopulateStaticDbService {
     const _dogFacts = dogFacts.map(({ fact }) => ({ name: fact }));
 
     try {
-      await this.catBreedModel.insertMany(_catBreeds);
-      await this.dogBreedModel.insertMany(_dogBreeds);
-      await this.catFactModel.insertMany(_catFacts);
-      await this.dogFactModel.insertMany(_dogFacts);
+      const isCatBreedModelEmpty = !(await this.catBreedModel.find().exec())
+        ?.length;
+      if (isCatBreedModelEmpty) {
+        await this.catBreedModel.insertMany(_catBreeds);
+      }
+
+      const isDogBreedModelEmpty = !(await this.dogBreedModel.find().exec())
+        ?.length;
+      if (isDogBreedModelEmpty) {
+        await this.dogBreedModel.insertMany(_dogBreeds);
+      }
+
+      const isCatFactModelEmpty = !(await this.catFactModel.find().exec())
+        ?.length;
+      if (isCatFactModelEmpty) {
+        await this.catFactModel.insertMany(_catFacts);
+      }
+
+      const isDogFactModelEmpty = !(await this.dogFactModel.find().exec())
+        ?.length;
+      if (isDogFactModelEmpty) {
+        await this.dogFactModel.insertMany(_dogFacts);
+      }
     } catch (e) {
       console.log(`[ERROR POPULATING STATIC DB]: ${e}`);
     }

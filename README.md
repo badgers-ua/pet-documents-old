@@ -9,12 +9,15 @@
 ## Run Locally (order is required)
 
 ### Pre Requirements
-Create a firebase project with enabled Google Authentication
+Create a [firebase](https://firebase.google.com) project with enabled **Google Authentication** and **Storage bucket**
 
 ---
 
 ### [types](libs/types)
-Run `yarn types-start`
+Run project:
+```bash
+yarn types-start
+```
 
 ---
 
@@ -23,7 +26,10 @@ Run `yarn types-start`
    * `DATABASE_URL=`"Mongodb url"\
             `PORT`="5001"\
             `FB_BUCKET_URL`="Firebase storage bucket url"
-2. Run `yarn trixie-start`
+2. Run project:
+```bash
+yarn trixie-start
+```
  
 ---
 
@@ -38,4 +44,7 @@ Run `yarn types-start`
      `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`="Provided by firebase"\
      `REACT_APP_FIREBASE_APP_ID`="Provided by firebase"\
      `REACT_APP_FIREBASE_MEASURMENT_ID1`="Provided by firebase""
-2. Run `yarn jill-start`
+2. Run project:
+```bash
+yarn jill-start
+```

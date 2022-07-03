@@ -37,3 +37,4 @@ yarn-error.log*
 .development.env
 .production.env
 src/assets/firebase-admin.json
+/.turbo

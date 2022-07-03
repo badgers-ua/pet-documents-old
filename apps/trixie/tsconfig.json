@@ -1,4 +1,5 @@
 {
+  "extends": "/libs/tsconfig.libs.json",
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -12,9 +13,6 @@
     "baseUrl": "./",
     "incremental": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@pdoc/types": ["../../libs/types/src"]
-    }
+    "skipLibCheck": true
   }
 }

@@ -3,22 +3,27 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "jill",
-      "trixie"
-    ],
-    "nohoist": [
-      "**"
+      "apps/*",
+      "libs/*"
     ]
   },
   "scripts": {
     "prepare": "husky install",
     "lint": "yarn workspace @pdoc/trixie format && yarn workspace @pdoc/jill lint",
-    "jill:build": "yarn workspace @pdoc/jill build",
-    "trixie:build": "yarn workspace @pdoc/trixie build",
-    "trixie:start:prod": "yarn workspace @pdoc/trixie start:prod"
+    "types-start": "yarn workspace @pdoc/types start",
+    "jill-start": "yarn workspace @pdoc/jill start",
+    "jill-build": "yarn workspace @pdoc/jill build",
+    "trixie-build": "yarn workspace @pdoc/trixie build",
+    "trixie-start": "yarn workspace @pdoc/trixie start:dev",
+    "trixie-start-prod": "yarn workspace @pdoc/trixie start:prod"
   },
   "devDependencies": {
-    "husky": "^7.0.4",
-    "prettier": "^2.6.2"
+    "@types/node": "^18.0.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "class-validator": "^0.13.2"
   }
 }

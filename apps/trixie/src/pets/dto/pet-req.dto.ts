@@ -1,3 +1,6 @@
+// @ts-ignore
+// @ts-ignore
+
 import {
   IsNotEmpty,
   IsNumber,
@@ -14,7 +17,7 @@ import {
 } from '../../utils/formatter.utils';
 import { GENDER, SPECIES } from '../../shared/types';
 import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql';
-import { GraphQLUpload } from 'graphql-upload';
+const GraphQLUpload = require('graphql-upload/GraphQLUpload.js');
 
 @InputType()
 export class PetReqDto {

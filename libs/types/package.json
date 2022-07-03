@@ -1,0 +1,12 @@
+{
+  "name": "@pdoc/types",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc --watch"
+  }
+}

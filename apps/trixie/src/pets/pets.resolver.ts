@@ -2,7 +2,6 @@ import { UseGuards } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { PatchPetReqDto, PetReqDto } from './dto/pet-req.dto';
 import { User } from '../utils/decorators';
-import { AddOwnerReqDto } from './dto/add-owner-req.dto';
 import {
   CreatedPetResDto,
   PatchedPetResDto,
@@ -18,6 +17,7 @@ import { RemoveOwnerResDto } from './dto/remove-owner-res.dto';
 import { RemoveOwnerReqDto } from './dto/remove-owner-req.dto';
 import { DeletePetReqDto } from './dto/delete-pet-req.dto';
 import { DeletePetResDto } from './dto/delete-pet-res.dto';
+import { AddOwnerReqDto } from './dto/add-owner-req.dto';
 
 @Resolver()
 @UseGuards(FirebaseAuthGuard)

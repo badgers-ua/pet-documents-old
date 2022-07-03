@@ -24,11 +24,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       driver: ApolloDriver,
       autoSchemaFile: true,
     }),
-    FireBaseModule,
+    FireBaseModule.forRoot(),
+    AuthModule,
     StaticModule,
     PetsModule,
     EventsModule,
-    AuthModule,
   ],
 })
 export class AppModule {}

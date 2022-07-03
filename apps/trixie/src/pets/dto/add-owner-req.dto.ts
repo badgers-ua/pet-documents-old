@@ -1,9 +1,6 @@
 import { IsEmail, IsMongoId, IsString } from 'class-validator';
 import { Field, InputType } from '@nestjs/graphql';
-
-interface IOwnerEmailDto {
-  ownerEmail: string;
-}
+import { IOwnerEmailDto } from '@pdoc/types';
 
 @InputType()
 export class AddOwnerReqDto implements IOwnerEmailDto {

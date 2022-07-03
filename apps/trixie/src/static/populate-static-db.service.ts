@@ -22,7 +22,7 @@ export class PopulateStaticDbService {
     @InjectModel(DogFact.name)
     private readonly dogFactModel: Model<DogFactDocument>,
   ) {
-    // this.populateDb();
+    this.populateDb();
   }
 
   private async populateDb(): Promise<void> {

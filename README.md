@@ -32,6 +32,7 @@ Create a [Firebase](https://firebase.google.com) project with enabled **Google A
 ```bash
 yarn run start
 ```
+After running `yarn run start`, api docs are available under http://localhost:5001/graphql
 
 ## Steps to add _app_ or _lib_ to monorepo
 1. Must be a typescript project

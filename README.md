@@ -24,15 +24,9 @@ Create a [Firebase](https://firebase.google.com) project with enabled **Google A
 
 ### [jill:](apps/jill)
 1. Add `.env.development` file to the root of [jill](apps/jill) with following structure (without quotes):
-   * `REACT_APP_PRODUCTION`="false"\
-     `REACT_APP_API_URL`="http://localhost:5001" \
-     `REACT_APP_FIREBASE_API_KEY`="Provided by firebase"\
-     `REACT_APP_FIREBASE_AUTH_DOMAIN`="Provided by firebase"\
-     `REACT_APP_FIREBASE_PROJECT_ID`="Provided by firebase"\
-     `REACT_APP_FIREBASE_STORAGE_BUCKET`="Provided by firebase"\
-     `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`="Provided by firebase"\
-     `REACT_APP_FIREBASE_APP_ID`="Provided by firebase"\
-     `REACT_APP_FIREBASE_MEASURMENT_ID1`="Provided by firebase""
+   * `REACT_APP_PRODUCTION=`"false"\
+     `REACT_APP_API_URL=`"http://localhost:5001" \
+     `REACT_APP_FIREBASE_CONFIG=`"JSON.stringify(firebaseWebAppConfig)"
 
 ## Run Locally
 ```bash

@@ -96,10 +96,8 @@ const PetProfile = () => {
       id: data?.getPet?._id,
       __typename: (data?.getPet as any)?.__typename,
     });
-    // TODO: migrate Formik to https://react-hook-form.com/ (useFormik causes re-rendering issues)
     setTimeout(() => {
       cache.evict({ id: petProfileCacheId });
-      // TODO: Dynamic id
       cache.evict({ id: `PetPreviewResDto:${petId}` });
       cache.gc();
     });
@@ -136,9 +134,7 @@ const PetProfile = () => {
           data,
         }: { data?: { deleteEvent: DeleteEventResDto } | null | undefined },
       ) => {
-        // TODO: migrate Formik to https://react-hook-form.com/ (useFormik causes re-rendering issues)
         setTimeout(() => {
-          // TODO: Dynamic id
           cache.evict({ id: `IEventResDto:${data?.deleteEvent?._id}` });
           cache.gc();
         });

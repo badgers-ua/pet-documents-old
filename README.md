@@ -7,7 +7,7 @@
 | [types](libs/types)   |                Shared typings                |
 
 ## Pre Requirements
-Create a [firebase](https://firebase.google.com) project with enabled **Google Authentication** and **Storage bucket**
+Create a [Firebase](https://firebase.google.com) project with enabled **Google Authentication** and **Storage bucket**
 
 ---
 
@@ -16,6 +16,9 @@ Create a [firebase](https://firebase.google.com) project with enabled **Google A
    * `DATABASE_URL=`"Mongodb url"\
             `PORT`="5001"\
             `FB_BUCKET_URL`="Firebase storage bucket url"
+2. Export **_service-account.json_** from [Firebase](https://firebase.google.com)
+   1. Rename exported **_service-account.json_** to **_.development.fbsa.json_**
+   2. Place **_.development.fbsa.json_** under [trixie](apps/trixie) root folder
  
 ---
 

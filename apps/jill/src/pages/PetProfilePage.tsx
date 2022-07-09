@@ -140,7 +140,7 @@ const PetProfilePage = () => {
         }: { data?: { deleteEvent: DeleteEventResDto } | null | undefined },
       ) => {
         setTimeout(() => {
-          cache.evict({ id: `IEventResDto:${data?.deleteEvent?._id}` });
+          cache.evict({ id: `EventResDto:${data?.deleteEvent?._id}` });
           cache.gc();
         });
       },
@@ -396,25 +396,26 @@ const PetProfilePage = () => {
       {!isMdUp && renderMobileView()}
       {isMdUp && renderDesktopView()}
 
-      {activeTab === 1 && (
-        <Link
-          sx={{
-            position: 'fixed',
-            bottom: (theme) => theme.spacing(2),
-            right: (theme) => theme.spacing(2),
-          }}
-          component={RouterLink}
-          to={`/create-event/${petId}`}
-          color="inherit"
-          underline="none"
-        >
-          <Tooltip title={t('createEvent').toString()}>
-            <Fab color="secondary" aria-label="add">
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Link>
-      )}
+      {activeTab === 1 ||
+        (isMdUp && (
+          <Link
+            sx={{
+              position: 'fixed',
+              bottom: (theme) => theme.spacing(2),
+              right: (theme) => theme.spacing(2),
+            }}
+            component={RouterLink}
+            to={`/create-event/${petId}`}
+            color="inherit"
+            underline="none"
+          >
+            <Tooltip title={t('createEvent').toString()}>
+              <Fab color="secondary" aria-label="add">
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          </Link>
+        ))}
     </>
   );
 };

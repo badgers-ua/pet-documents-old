@@ -40,6 +40,7 @@ import {
   getEventOptions,
   getHeaderHeight,
 } from '../utils/factory.utils';
+import CenteredNoDataMessage from '../components/CenteredNoDataMessage';
 
 type PetEventsGridProps = {
   petId: string;
@@ -96,7 +97,7 @@ const defaultFilters: Filters = {
 };
 
 const PetEventListContainer = (props: PetEventsGridProps) => {
-  const { events, petId, onEventDeleteClick } = props;
+  const { events = [], petId, onEventDeleteClick } = props;
   const [filters, setFilters] = useState<Filters>(defaultFilters);
   const { t } = useTranslation();
 
@@ -120,6 +121,14 @@ const PetEventListContainer = (props: PetEventsGridProps) => {
           ({ date }) => DateTime.fromISO(date).toJSDate(),
           filters.selectedSorting === SORTING.ASC ? 'asc' : 'desc',
         );
+
+  if (!events.length) {
+    return (
+      <Box position="relative" height="100%">
+        <CenteredNoDataMessage />
+      </Box>
+    );
+  }
 
   return (
     <Box>

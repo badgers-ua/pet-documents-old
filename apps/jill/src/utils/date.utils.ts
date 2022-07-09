@@ -79,6 +79,9 @@ export const isToday = (isoDate: string) => {
 };
 
 export const isPast = (isoDate: string): boolean => {
+  if (isToday(isoDate)) {
+    return false;
+  }
   return DateTime.fromISO(isoDate).diffNow().milliseconds < 0;
 };
 

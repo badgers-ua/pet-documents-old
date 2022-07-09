@@ -1,30 +1,30 @@
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import Grid from '@mui/material/Grid';
+import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { GENDER, SPECIES } from '@pdoc/types';
 import { FormikHelpers, useFormik } from 'formik';
+import i18next from 'i18next';
+import { DateTime } from 'luxon';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
+import LocalTextField from '../../components/LocalTextField';
 import useGetBreedsBySpeciesGQL from '../../hooks/api/useGetBreedsBySpeciesGQL';
 import useCachedBreedsBySpeciesGQL from '../../hooks/cache/useCachedBreedsBySpeciesGQL';
-import { useTranslation } from 'react-i18next';
-import React, { useEffect } from 'react';
 import { DropDownOption } from '../../types';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import LocalTextField from '../../components/LocalTextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import { getUserDateFormat } from '../../utils/date.utils';
 import {
   getSortedGenderOptions,
   getSortedSpeciesOptions,
 } from '../../utils/factory.utils';
-import InputAdornment from '@mui/material/InputAdornment';
-import CircularProgress from '@mui/material/CircularProgress';
-import FormControl from '@mui/material/FormControl';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { getUserDateFormat } from '../../utils/date.utils';
-import { DateTime } from 'luxon';
-import FormHelperText from '@mui/material/FormHelperText';
-import Button from '@mui/material/Button';
-import * as Yup from 'yup';
-import i18next from 'i18next';
-import { GENDER, SPECIES } from '@pdoc/types';
 
 export interface CRUPetFormValues {
   name: string;
@@ -186,7 +186,7 @@ const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
                 )}
                 disabled={isLoadingBreeds}
                 value={values.species}
-                options={getSortedSpeciesOptions}
+                options={getSortedSpeciesOptions()}
                 getOptionLabel={({ label }) => label}
                 onChange={async (_, val) => {
                   await setFieldValue('breed', null, true);
@@ -247,7 +247,7 @@ const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
                   />
                 )}
                 value={values.gender}
-                options={getSortedGenderOptions}
+                options={getSortedGenderOptions()}
                 getOptionLabel={({ label }) => label}
                 isOptionEqualToValue={(option, value) => {
                   return option?.value === value?.value;

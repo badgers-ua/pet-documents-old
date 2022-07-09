@@ -1,17 +1,16 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { DropDownOption, PatchPetReqDto } from '../../types';
-import { getGenderLabel } from '../../utils/formatter.utils';
+import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
 import { DateTime } from 'luxon';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import CenteredNoDataMessage from '../../components/CenteredNoDataMessage';
-import { getDateWithMidnightUTCTime } from '../../utils/date.utils';
-import { getSpeciesLabel } from '../../utils/factory.utils';
-import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
 import useGetPetByIdGQL from '../../hooks/api/useGetPetByIdGQL';
 import useUpdatePetGQL from '../../hooks/api/useUpdatePetGQL';
+import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
+import { DropDownOption, PatchPetReqDto } from '../../types';
+import { getDateWithMidnightUTCTime } from '../../utils/date.utils';
+import { getSpeciesLabel } from '../../utils/factory.utils';
+import { getGenderLabel } from '../../utils/formatter.utils';
 import CreateUpdatePetForm, { CRUPetFormValues } from './_CreateUpdatePetForm';
-import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
 
 const UpdatePetContainer = () => {
   const { id: petId } = useParams<{ id: string }>();

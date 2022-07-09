@@ -1,4 +1,3 @@
-import React from 'react';
 import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -44,7 +43,6 @@ const EventListGrid = (props: EventsHomeGridProps) => {
       <Grid container spacing={2} pt={2}>
         {events.map(({ _id, petId, type, date, petName }: IEventResDto) => (
           <Grid item xs={12} sm={6} md={4} key={_id}>
-            {/* TODO: Ripple effect */}
             <Link
               component={RouterLink}
               to={`/update-event/${petId}/${_id}`}

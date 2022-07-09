@@ -9,12 +9,10 @@ import CreateUpdateEventForm, {
 import useCreateEventGQL from '../../hooks/api/useCreateEventGQL';
 import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
 
-const getInitialFormValues = (): CRUEventFormValues => {
-  return {
-    event: null,
-    date: null,
-    description: '',
-  };
+const initialFormValues: CRUEventFormValues = {
+  event: null,
+  date: DateTime.now(),
+  description: '',
 };
 
 export const CreateEvent = () => {
@@ -47,7 +45,7 @@ export const CreateEvent = () => {
       submitButtonText={t('create')}
       onSubmit={handleSubmit}
       disabled={isCreateEventLoading}
-      initialValues={getInitialFormValues()}
+      initialValues={initialFormValues}
     />
   );
 };

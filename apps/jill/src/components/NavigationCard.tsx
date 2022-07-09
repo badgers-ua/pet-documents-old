@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Card, { CardProps } from '@mui/material/Card';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { CardActionArea } from '@mui/material';
 import Box from '@mui/material/Box';
+import Card, { CardProps } from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
 interface _NavigationCardProps {
@@ -18,29 +18,31 @@ const NavigationCard = (props: NavigationCardProps) => {
 
   return (
     <Card data-test-id="navigation-card">
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={2}
-      >
-        <Box>
-          <CardHeader
-            sx={{ padding: 0 }}
-            avatar={avatar}
-            title={title}
-            subheader={subTitle}
-            titleTypographyProps={{ 'data-test-id': 'title' }}
-            subheaderTypographyProps={{ 'data-test-id': 'subtitle' }}
-          />
+      <CardActionArea>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          p={2}
+        >
+          <Box>
+            <CardHeader
+              sx={{ padding: 0 }}
+              avatar={avatar}
+              title={title}
+              subheader={subTitle}
+              titleTypographyProps={{ 'data-test-id': 'title' }}
+              subheaderTypographyProps={{ 'data-test-id': 'subtitle' }}
+            />
+          </Box>
+          {arrowIcon && (
+            <ArrowForwardIosIcon
+              sx={{ color: 'grey.500' }}
+              data-test-id="navigation-icon"
+            />
+          )}
         </Box>
-        {arrowIcon && (
-          <ArrowForwardIosIcon
-            sx={{ color: 'grey.500' }}
-            data-test-id="navigation-icon"
-          />
-        )}
-      </Box>
+      </CardActionArea>
     </Card>
   );
 };

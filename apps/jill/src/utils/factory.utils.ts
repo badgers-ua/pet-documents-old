@@ -71,3 +71,9 @@ export const getEventOptions: DropDownOption<EVENT>[] =
         value,
       } as DropDownOption<EVENT>),
   );
+
+export const getHeaderHeight = (theme: any, isXs: boolean): number => {
+  const [mobileHeaderHeight, , { minHeight: deskTopHeaderHeight }] =
+    Object.values(theme.mixins.toolbar);
+  return isXs ? mobileHeaderHeight : deskTopHeaderHeight;
+};

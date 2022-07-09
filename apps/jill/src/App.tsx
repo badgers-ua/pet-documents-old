@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import HeaderContainer from './containers/HeaderContainer';
-import { Children } from './types';
+import useTheme from '@mui/material/styles/useTheme';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { useUser } from 'reactfire';
-import RoutesLocal from './RoutesLocal';
+import HeaderContainer from './containers/HeaderContainer';
 import useSetLoadingStatus from './hooks/useSetLoadingStatus';
+import RoutesLocal from './RoutesLocal';
+import { Children } from './types';
+import { getHeaderHeight } from './utils/factory.utils';
 
 const App = () => {
   const theme: any = useTheme();
@@ -18,7 +18,7 @@ const App = () => {
     <AppGuard>
       <Router>
         <HeaderContainer />
-        <Box pt={`${isXs ? '56px' : '64px'}`}>
+        <Box pt={getHeaderHeight(theme, isXs) + 'px'}>
           <Container maxWidth="lg">
             <RoutesLocal />
           </Container>

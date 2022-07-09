@@ -18,8 +18,8 @@ import CenteredNoDataMessage from '../components/CenteredNoDataMessage';
 import AlertDialog from '../components/form/AlertDialog';
 import { EmailFormDialog } from '../components/form/EmailFormDialog';
 import OwnersFormDialog from '../components/form/OwnersFormDialog';
-import PetEventsGrid from '../containers/PetEventListContainer';
-import PetInfoCard from '../containers/PetInfoContainer';
+import PetEventListContainer from '../containers/PetEventListContainer';
+import PetInfoCardContainer from '../containers/PetInfoContainer';
 import {
   ADD_OWNER_SCHEMA,
   DELETE_EVENT_SCHEMA,
@@ -38,7 +38,7 @@ import {
   RemoveOwnerReqDto,
   RemoveOwnerResDto,
 } from '../types';
-import { getEventLabel } from '../utils/factory.utils';
+import { getEventLabel, getHeaderHeight } from '../utils/factory.utils';
 
 interface PetProfileGQLRes {
   getPet: IPetResDto;
@@ -143,6 +143,7 @@ const PetProfilePage = () => {
   );
 
   const theme: any = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -282,7 +283,11 @@ const PetProfilePage = () => {
 
   const renderPetInfoCard = () => {
     return (
-      <PetInfoCard
+      <PetInfoCardContainer
+        sx={{
+          top: `calc(${getHeaderHeight(theme, isXs)}px + ${theme.spacing(2)})`,
+          position: 'sticky',
+        }}
         pet={pet}
         petActions={{
           updatePetLink: `/update-pet/${petId}`,
@@ -296,7 +301,7 @@ const PetProfilePage = () => {
 
   const renderPetEventsCard = () => {
     return (
-      <PetEventsGrid
+      <PetEventListContainer
         events={events}
         petId={petId ?? ''}
         onEventDeleteClick={toggleDeleteEventConfirmationDialog}
@@ -328,7 +333,7 @@ const PetProfilePage = () => {
 
   const renderDesktopView = () => {
     return (
-      <Grid container spacing={2} pt={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           {renderPetInfoCard()}
         </Grid>

@@ -81,3 +81,9 @@ export const isToday = (isoDate: string) => {
 export const isPast = (isoDate: string): boolean => {
   return DateTime.fromISO(isoDate).diffNow().milliseconds < 0;
 };
+
+export const isTodayOrFuture = (isoDate: string): boolean => {
+  return (
+    isToday(isoDate) || DateTime.fromISO(isoDate).diffNow().milliseconds > 0
+  );
+};

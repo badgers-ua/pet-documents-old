@@ -35,7 +35,7 @@ type PetInfoProps = {
   petActions: PetActionsProps;
 } & CardProps;
 
-const PetInfoCard = (props: PetInfoProps) => {
+const PetInfoCardContainer = (props: PetInfoProps) => {
   const { pet, petActions, ...cardProps } = props;
   const {
     species,
@@ -219,4 +219,4 @@ const PetActions = (props: PetActionsProps) => {
   );
 };
 
-export default PetInfoCard;
+export default PetInfoCardContainer;

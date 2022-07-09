@@ -1,3 +1,4 @@
+import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
@@ -13,16 +14,28 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
+import useTheme from '@mui/material/styles/useTheme';
 import Switch from '@mui/material/Switch';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { EVENT, IEventResDto } from '@pdoc/types';
+import { orderBy } from 'lodash';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropDownOption } from '../types';
-import { getUserDateFormat, isPast } from '../utils/date.utils';
-import { getEventLabel, getEventOptions } from '../utils/factory.utils';
+import {
+  getUserDateFormat,
+  isPast,
+  isTodayOrFuture,
+} from '../utils/date.utils';
+import {
+  getEnumIntegerValues,
+  getEventLabel,
+  getEventOptions,
+  getHeaderHeight,
+} from '../utils/factory.utils';
 
 type PetEventsGridProps = {
   petId: string;
@@ -30,16 +43,88 @@ type PetEventsGridProps = {
   onEventDeleteClick: (event: IEventResDto) => void;
 };
 
+type Filters = {
+  selectedEvent: EventFilter;
+  selectedSorting: SORTING;
+  isFutureOnly: boolean;
+};
+
+type ToolbarProps = {
+  filters: Filters;
+  onFiltersChanged: (filters: Filters) => void;
+};
+
+type EventFilter = EVENT | 'all';
+
+enum SORTING {
+  DEFAULT,
+  ASC,
+  DESC,
+}
+
+const eventTypes: DropDownOption<EVENT | 'all'>[] = [
+  { label: 'All', value: 'all' },
+  ...getEventOptions,
+];
+
+const getSortingLabel: any = {
+  [SORTING.DEFAULT]: 'Default',
+  [SORTING.ASC]: 'Asc',
+  [SORTING.DESC]: 'Desc',
+};
+
+const sortingOptions: DropDownOption<SORTING>[] = getEnumIntegerValues<SORTING>(
+  SORTING,
+).map(
+  (value: SORTING) =>
+    ({
+      label: getSortingLabel[value],
+      value,
+    } as DropDownOption<SORTING>),
+);
+
+const defaultFilters: Filters = {
+  isFutureOnly: false,
+  selectedEvent: 'all',
+  selectedSorting: SORTING.DEFAULT,
+};
+
 const PetEventListContainer = (props: PetEventsGridProps) => {
   const { events, petId, onEventDeleteClick } = props;
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
   const { t } = useTranslation();
-  console.log(events);
+
+  const filteredEvents: IEventResDto[] =
+    filters.isFutureOnly || filters.selectedEvent !== 'all'
+      ? events.filter(({ date, type }: IEventResDto) => {
+          const dateMatch = filters.isFutureOnly ? isTodayOrFuture(date) : true;
+          const eventMatch =
+            filters.selectedEvent === 'all'
+              ? true
+              : +filters.selectedEvent === type;
+          return dateMatch && eventMatch;
+        })
+      : events;
+
+  const sortedAndFilteredEvents: IEventResDto[] =
+    filters.selectedSorting === SORTING.DEFAULT
+      ? filteredEvents
+      : orderBy(
+          filteredEvents,
+          ({ date }) => DateTime.fromISO(date).toJSDate(),
+          filters.selectedSorting === SORTING.ASC ? 'asc' : 'desc',
+        );
 
   return (
     <Box>
-      <Toolbar />
+      <Toolbar
+        filters={filters}
+        onFiltersChanged={(filters: Filters) => {
+          setFilters(filters);
+        }}
+      />
       <Stack spacing={2}>
-        {events.map(({ type, date, _id, description }) => {
+        {sortedAndFilteredEvents.map(({ type, date, _id, description }) => {
           const isPastEvent: boolean = isPast(date);
 
           return (
@@ -80,21 +165,51 @@ const PetEventListContainer = (props: PetEventsGridProps) => {
   );
 };
 
-const eventTypes: DropDownOption<EVENT | string>[] = [
-  { label: 'All', value: 'all' },
-  ...getEventOptions,
-];
+const Toolbar = ({ filters, onFiltersChanged }: ToolbarProps) => {
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
-const Toolbar = () => {
-  const [selectedEventType, setSelectedEventType] = useState<string>('all');
   const { t } = useTranslation();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedEventType(event.target.value);
+  const handleTypeChanged = (event: SelectChangeEvent) => {
+    const val: EventFilter = event.target.value as EventFilter;
+    onFiltersChanged({
+      ...filters,
+      selectedEvent: val,
+    });
+  };
+
+  const handleSortingChanged = (event: SelectChangeEvent) => {
+    const sorting: SORTING = +event.target.value as SORTING;
+    onFiltersChanged({
+      ...filters,
+      selectedSorting: +sorting,
+    });
+  };
+
+  const handleFutureOnlyToggled = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const isFutureOnly: boolean = event.target.checked;
+    onFiltersChanged({
+      ...filters,
+      isFutureOnly,
+    });
+  };
+
+  const handleResetFilters = () => {
+    onFiltersChanged(defaultFilters);
   };
 
   return (
-    <Stack mb={2}>
+    <Stack
+      mb={2}
+      position="sticky"
+      top={`${getHeaderHeight(theme, isXs)}px`}
+      paddingTop={theme.spacing(2)}
+      sx={{ backgroundColor: theme.palette.background.default }}
+      zIndex={1}
+    >
       <Box mb={2} display="flex" alignItems="flex-end">
         <Stack spacing={2} direction="row" flex={1}>
           <FormControl size="small" sx={{ flex: 1 }}>
@@ -103,8 +218,8 @@ const Toolbar = () => {
               label="Event Type"
               labelId="event-type-label"
               id="event-type-select"
-              value={selectedEventType}
-              onChange={handleChange}
+              value={filters.selectedEvent.toString()}
+              onChange={handleTypeChanged}
             >
               {eventTypes.map(({ label, value }) => {
                 return (
@@ -118,23 +233,48 @@ const Toolbar = () => {
 
           <FormControl size="small" sx={{ flex: 1 }}>
             <InputLabel id="sort-label">Sorting</InputLabel>
-            <Select label="Sorting" labelId="sort-label" id="sort-select">
-              <MenuItem>ASC</MenuItem>
-              <MenuItem>DESC</MenuItem>
+            <Select
+              label="Sorting"
+              labelId="sort-label"
+              id="sort-select"
+              value={filters.selectedSorting.toString()}
+              onChange={handleSortingChanged}
+            >
+              {sortingOptions.map(({ label, value }) => {
+                return (
+                  <MenuItem key={label} value={value}>
+                    {label}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </Stack>
       </Box>
-      <FormControl component="fieldset" size="small" sx={{ flex: 1 }}>
-        <FormGroup aria-label="position" row>
-          <FormControlLabel
-            value="end"
-            control={<Switch color="primary" />}
-            label="Show upcoming"
-            labelPlacement="end"
-          />
-        </FormGroup>
-      </FormControl>
+
+      <Stack direction="row">
+        <FormControl component="fieldset" size="small" sx={{ flex: 1 }}>
+          <FormGroup aria-label="position" row>
+            <FormControlLabel
+              control={
+                <Switch
+                  color="primary"
+                  checked={filters.isFutureOnly}
+                  onChange={handleFutureOnlyToggled}
+                />
+              }
+              label="Show upcoming"
+              labelPlacement="end"
+            />
+          </FormGroup>
+        </FormControl>
+
+        <Tooltip title={'Reset filters'.toString()}>
+          <IconButton onClick={handleResetFilters}>
+            <ClearIcon></ClearIcon>
+          </IconButton>
+        </Tooltip>
+      </Stack>
     </Stack>
   );
 };

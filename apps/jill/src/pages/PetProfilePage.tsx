@@ -1,20 +1,21 @@
 import { ApolloCache } from '@apollo/client/core';
-import Link from '@mui/material/Link';
-import { Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
 import { useQuery } from '@apollo/client/react/hooks/useQuery';
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import useTheme from '@mui/material/styles/useTheme';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import AddIcon from '@mui/icons-material/Add';
+import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { IEventResDto, IPetResDto } from '@pdoc/types';
 import { FormikConfig, useFormik } from 'formik';
 import i18next from 'i18next';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { useUser } from 'reactfire';
 import * as Yup from 'yup';
 import CenteredNoDataMessage from '../components/CenteredNoDataMessage';
@@ -42,8 +43,6 @@ import {
   RemoveOwnerResDto,
 } from '../types';
 import { getEventLabel, getHeaderHeight } from '../utils/factory.utils';
-import Tooltip from '@mui/material/Tooltip';
-import Fab from '@mui/material/Fab';
 
 interface PetProfileGQLRes {
   getPet: IPetResDto;
@@ -396,26 +395,25 @@ const PetProfilePage = () => {
       {!isMdUp && renderMobileView()}
       {isMdUp && renderDesktopView()}
 
-      {activeTab === 1 ||
-        (isMdUp && (
-          <Link
-            sx={{
-              position: 'fixed',
-              bottom: (theme) => theme.spacing(2),
-              right: (theme) => theme.spacing(2),
-            }}
-            component={RouterLink}
-            to={`/create-event/${petId}`}
-            color="inherit"
-            underline="none"
-          >
-            <Tooltip title={t('createEvent').toString()}>
-              <Fab color="secondary" aria-label="add">
-                <AddIcon />
-              </Fab>
-            </Tooltip>
-          </Link>
-        ))}
+      {(activeTab === 1 || isMdUp) && (
+        <Link
+          sx={{
+            position: 'fixed',
+            bottom: (theme) => theme.spacing(2),
+            right: (theme) => theme.spacing(2),
+          }}
+          component={RouterLink}
+          to={`/create-event/${petId}`}
+          color="inherit"
+          underline="none"
+        >
+          <Tooltip title={t('createEvent').toString()}>
+            <Fab color="secondary" aria-label="add">
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Link>
+      )}
     </>
   );
 };

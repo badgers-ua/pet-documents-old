@@ -25,7 +25,6 @@ const PetListContainer = () => {
             {pets.map(
               ({ _id, species, name, dateOfBirth }: IPetPreviewResDto) => (
                 <Grid item xs={12} sm={6} md={4} key={_id}>
-                  {/* TODO: Ripple effect */}
                   <Link
                     component={RouterLink}
                     to={`/pet/${_id}`}

@@ -77,3 +77,7 @@ export const isToday = (isoDate: string) => {
 
   return isDayToday && isMonthToday && isYearToday;
 };
+
+export const isPast = (isoDate: string): boolean => {
+  return DateTime.fromISO(isoDate).diffNow().milliseconds < 0;
+};

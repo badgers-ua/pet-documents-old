@@ -1,15 +1,14 @@
-import React from 'react';
+import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
-import { Link as RouterLink } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import EventListContainer from '../containers/EventListContainer';
+import PetListContainer from '../containers/PetListContainer';
 import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
 import useSetLoadingStatus from '../hooks/useSetLoadingStatus';
-import PetListContainer from '../containers/PetListContainer';
-import EventListContainer from '../containers/EventListContainer';
 
 const HomePage = () => {
   const { pets, todayEvents, upcomingEvents, isLoading } =

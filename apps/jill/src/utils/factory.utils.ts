@@ -8,16 +8,18 @@ export const getEnumIntegerValues = <T>(_enum: object) =>
   Object.values(_enum).filter((value: string | number) =>
     Number.isInteger(value),
   ) as T[];
-export const getSortedGenderOptions: DropDownOption<GENDER>[] = sortBy(
-  getEnumIntegerValues<GENDER>(GENDER).map(
-    (value: GENDER) =>
-      ({
-        label: getGenderLabel(value),
-        value,
-      } as DropDownOption<GENDER>),
-  ),
-  'label',
-);
+
+export const getSortedGenderOptions = (): DropDownOption<GENDER>[] =>
+  sortBy(
+    getEnumIntegerValues<GENDER>(GENDER).map(
+      (value: GENDER) =>
+        ({
+          label: getGenderLabel(value),
+          value,
+        } as DropDownOption<GENDER>),
+    ),
+    'label',
+  );
 
 export const getSpeciesLabel = (species: SPECIES) => {
   const dictionary = {
@@ -27,16 +29,17 @@ export const getSpeciesLabel = (species: SPECIES) => {
   return dictionary[species];
 };
 
-export const getSortedSpeciesOptions: DropDownOption<SPECIES>[] = sortBy(
-  getEnumIntegerValues<SPECIES>(SPECIES).map(
-    (value: SPECIES) =>
-      ({
-        label: getSpeciesLabel(value),
-        value,
-      } as DropDownOption<SPECIES>),
-  ),
-  'label',
-);
+export const getSortedSpeciesOptions = (): DropDownOption<SPECIES>[] =>
+  sortBy(
+    getEnumIntegerValues<SPECIES>(SPECIES).map(
+      (value: SPECIES) =>
+        ({
+          label: getSpeciesLabel(value),
+          value,
+        } as DropDownOption<SPECIES>),
+    ),
+    'label',
+  );
 
 export const getEventLabel = (event: EVENT) => {
   const dictionary = {
@@ -63,7 +66,7 @@ export const getEventLabel = (event: EVENT) => {
   return dictionary[event];
 };
 
-export const getEventOptions: DropDownOption<EVENT>[] =
+export const getEventOptions = (): DropDownOption<EVENT>[] =>
   getEnumIntegerValues<EVENT>(EVENT).map(
     (value: EVENT) =>
       ({

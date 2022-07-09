@@ -1,9 +1,8 @@
-import * as React from 'react';
-import Card, { CardProps } from '@mui/material/Card';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Box from '@mui/material/Box';
-import CardHeader from '@mui/material/CardHeader';
 import { CardActionArea } from '@mui/material';
+import Box from '@mui/material/Box';
+import Card, { CardProps } from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 
 interface _NavigationCardProps {
   avatar: JSX.Element;

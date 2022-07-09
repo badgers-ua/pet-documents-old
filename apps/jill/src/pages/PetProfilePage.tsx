@@ -1,10 +1,13 @@
 import { ApolloCache } from '@apollo/client/core';
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
 import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import Grid from '@mui/material/Grid';
 import useTheme from '@mui/material/styles/useTheme';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import AddIcon from '@mui/icons-material/Add';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { IEventResDto, IPetResDto } from '@pdoc/types';
 import { FormikConfig, useFormik } from 'formik';
@@ -39,6 +42,8 @@ import {
   RemoveOwnerResDto,
 } from '../types';
 import { getEventLabel, getHeaderHeight } from '../utils/factory.utils';
+import Tooltip from '@mui/material/Tooltip';
+import Fab from '@mui/material/Fab';
 
 interface PetProfileGQLRes {
   getPet: IPetResDto;
@@ -145,6 +150,7 @@ const PetProfilePage = () => {
   const theme: any = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setIsLoading } = useLoaderStore();
@@ -281,12 +287,14 @@ const PetProfilePage = () => {
     deleteEvent({ variables: { deleteEventReqDto } });
   };
 
-  const renderPetInfoCard = () => {
+  const renderPetInfoCardContainer = () => {
     return (
       <PetInfoCardContainer
         sx={{
-          top: `calc(${getHeaderHeight(theme, isXs)}px + ${theme.spacing(2)})`,
           position: 'sticky',
+          top: `${getHeaderHeight(theme, isXs)}px`,
+          paddingTop: isMdDown ? 0 : theme.spacing(2),
+          backgroundColor: theme.palette.background.default,
         }}
         pet={pet}
         petActions={{
@@ -299,7 +307,7 @@ const PetProfilePage = () => {
     );
   };
 
-  const renderPetEventsCard = () => {
+  const renderPetEventListContainer = () => {
     return (
       <PetEventListContainer
         events={events}
@@ -324,8 +332,8 @@ const PetProfilePage = () => {
           </Tabs>
         </Grid>
         <Grid item xs={12}>
-          {activeTab === 0 && renderPetInfoCard()}
-          {activeTab === 1 && renderPetEventsCard()}
+          {activeTab === 0 && renderPetInfoCardContainer()}
+          {activeTab === 1 && renderPetEventListContainer()}
         </Grid>
       </Grid>
     );
@@ -335,10 +343,10 @@ const PetProfilePage = () => {
     return (
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          {renderPetInfoCard()}
+          {renderPetInfoCardContainer()}
         </Grid>
         <Grid item xs={12} md={6} pb={2}>
-          {renderPetEventsCard()}
+          {renderPetEventListContainer()}
         </Grid>
       </Grid>
     );
@@ -387,6 +395,26 @@ const PetProfilePage = () => {
       />
       {!isMdUp && renderMobileView()}
       {isMdUp && renderDesktopView()}
+
+      {activeTab === 1 && (
+        <Link
+          sx={{
+            position: 'fixed',
+            bottom: (theme) => theme.spacing(2),
+            right: (theme) => theme.spacing(2),
+          }}
+          component={RouterLink}
+          to={`/create-event/${petId}`}
+          color="inherit"
+          underline="none"
+        >
+          <Tooltip title={t('createEvent').toString()}>
+            <Fab color="secondary" aria-label="add">
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Link>
+      )}
     </>
   );
 };

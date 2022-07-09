@@ -1,9 +1,11 @@
+import { Link as RouterLink } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import Link from '@mui/material/Link';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import FormControl from '@mui/material/FormControl';
@@ -24,7 +26,9 @@ import { orderBy } from 'lodash';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { DropDownOption } from '../types';
+import { addEventToCalendar } from '../utils/calendar.utils';
 import {
   getUserDateFormat,
   isPast,
@@ -62,26 +66,28 @@ enum SORTING {
   DESC,
 }
 
-const eventTypes: DropDownOption<EVENT | 'all'>[] = [
-  { label: 'All', value: 'all' },
-  ...getEventOptions,
+const eventTypes = (): DropDownOption<EVENT | 'all'>[] => [
+  { label: i18next.t('all'), value: 'all' },
+  ...getEventOptions(),
 ];
 
-const getSortingLabel: any = {
-  [SORTING.DEFAULT]: 'Default',
-  [SORTING.ASC]: 'Asc',
-  [SORTING.DESC]: 'Desc',
+const getSortingLabel = (sorting: SORTING): string => {
+  const dictionary = {
+    [SORTING.DEFAULT]: i18next.t('default'),
+    [SORTING.ASC]: i18next.t('pastFirst'),
+    [SORTING.DESC]: i18next.t('futureFirst'),
+  };
+  return dictionary[sorting];
 };
 
-const sortingOptions: DropDownOption<SORTING>[] = getEnumIntegerValues<SORTING>(
-  SORTING,
-).map(
-  (value: SORTING) =>
-    ({
-      label: getSortingLabel[value],
-      value,
-    } as DropDownOption<SORTING>),
-);
+const sortingOptions = (): DropDownOption<SORTING>[] =>
+  getEnumIntegerValues<SORTING>(SORTING).map(
+    (value: SORTING) =>
+      ({
+        label: getSortingLabel(value),
+        value,
+      } as DropDownOption<SORTING>),
+  );
 
 const defaultFilters: Filters = {
   isFutureOnly: false,
@@ -124,8 +130,18 @@ const PetEventListContainer = (props: PetEventsGridProps) => {
         }}
       />
       <Stack spacing={2}>
-        {sortedAndFilteredEvents.map(({ type, date, _id, description }) => {
+        {sortedAndFilteredEvents.map((event: IEventResDto) => {
+          const { type, date, _id, description, petName } = event;
           const isPastEvent: boolean = isPast(date);
+
+          const addToCalendar = () => {
+            addEventToCalendar({
+              petName,
+              eventName: getEventLabel(type),
+              eventDescription: description,
+              eventDate: date,
+            });
+          };
 
           return (
             <Card key={_id} variant={isPastEvent ? 'outlined' : 'elevation'}>
@@ -141,18 +157,25 @@ const PetEventListContainer = (props: PetEventsGridProps) => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Tooltip title={t('editEvent').toString()}>
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip>
+                <Link
+                  component={RouterLink}
+                  to={`/update-event/${petId}/${_id}`}
+                  color="inherit"
+                  underline="none"
+                >
+                  <Tooltip title={t('editEvent').toString()}>
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
                 <Tooltip title={t('deleteEvent').toString()}>
-                  <IconButton onClick={() => {}}>
+                  <IconButton onClick={() => onEventDeleteClick(event)}>
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={t('addToCalendar').toString()}>
-                  <IconButton>
+                  <IconButton onClick={addToCalendar}>
                     <EventIcon />
                   </IconButton>
                 </Tooltip>
@@ -213,15 +236,15 @@ const Toolbar = ({ filters, onFiltersChanged }: ToolbarProps) => {
       <Box mb={2} display="flex" alignItems="flex-end">
         <Stack spacing={2} direction="row" flex={1}>
           <FormControl size="small" sx={{ flex: 1 }}>
-            <InputLabel id="event-type-label">Event Type</InputLabel>
+            <InputLabel id="event-type-label">{t('event')}</InputLabel>
             <Select
-              label="Event Type"
+              label={t('event').toString()}
               labelId="event-type-label"
               id="event-type-select"
               value={filters.selectedEvent.toString()}
               onChange={handleTypeChanged}
             >
-              {eventTypes.map(({ label, value }) => {
+              {eventTypes().map(({ label, value }) => {
                 return (
                   <MenuItem value={value} key={label}>
                     {value === 'all' ? <em>{label}</em> : label}
@@ -232,15 +255,15 @@ const Toolbar = ({ filters, onFiltersChanged }: ToolbarProps) => {
           </FormControl>
 
           <FormControl size="small" sx={{ flex: 1 }}>
-            <InputLabel id="sort-label">Sorting</InputLabel>
+            <InputLabel id="sort-label">{t('sorting')}</InputLabel>
             <Select
-              label="Sorting"
+              label={t('sorting').toString()}
               labelId="sort-label"
               id="sort-select"
               value={filters.selectedSorting.toString()}
               onChange={handleSortingChanged}
             >
-              {sortingOptions.map(({ label, value }) => {
+              {sortingOptions().map(({ label, value }) => {
                 return (
                   <MenuItem key={label} value={value}>
                     {label}
@@ -263,13 +286,13 @@ const Toolbar = ({ filters, onFiltersChanged }: ToolbarProps) => {
                   onChange={handleFutureOnlyToggled}
                 />
               }
-              label="Show upcoming"
+              label={t('onlyUpcoming').toString()}
               labelPlacement="end"
             />
           </FormGroup>
         </FormControl>
 
-        <Tooltip title={'Reset filters'.toString()}>
+        <Tooltip title={t('resetFilters').toString()}>
           <IconButton onClick={handleResetFilters}>
             <ClearIcon></ClearIcon>
           </IconButton>

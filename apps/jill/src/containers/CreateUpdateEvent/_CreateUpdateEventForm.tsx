@@ -108,7 +108,7 @@ const CreateUpdateEventForm = (props: CreateUpdateEventFormProps) => {
                   return option?.value === value?.value;
                 }}
                 value={values.event}
-                options={getEventOptions}
+                options={getEventOptions()}
                 getOptionLabel={({ label }) => label}
                 onChange={(_, val) => {
                   setFieldValue('event', val, true);

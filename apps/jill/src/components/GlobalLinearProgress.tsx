@@ -11,7 +11,7 @@ const GlobalLinearProgress = () => {
 
   return (
     <LinearProgress
-      sx={{ position: 'fixed', left: 0, right: 0 }}
+      sx={{ position: 'fixed', left: 0, right: 0, zIndex: 2 }}
       className="global-linear-progress"
     />
   );

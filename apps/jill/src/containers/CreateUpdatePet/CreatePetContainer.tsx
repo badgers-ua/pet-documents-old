@@ -1,24 +1,21 @@
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useCreatePetGQL from '../../hooks/api/useCreatePetGQL';
 import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
-import CreateUpdatePetForm, { CRUPetFormValues } from './_CreateUpdatePetForm';
 import { PetReqDto } from '../../types';
 import { getDateWithMidnightUTCTime } from '../../utils/date.utils';
-import { DateTime } from 'luxon';
-import React from 'react';
+import CreateUpdatePetForm, { CRUPetFormValues } from './_CreateUpdatePetForm';
 
-const getInitialFormValues = (): CRUPetFormValues => {
-  return {
-    name: '',
-    species: null,
-    breed: null,
-    gender: null,
-    dateOfBirth: null,
-    weight: '',
-    color: '',
-    description: '',
-  };
+const initialFormValues: CRUPetFormValues = {
+  name: '',
+  species: null,
+  breed: null,
+  gender: null,
+  dateOfBirth: null,
+  weight: '',
+  color: '',
+  description: '',
 };
 
 export const CreatePetContainer = () => {
@@ -66,7 +63,7 @@ export const CreatePetContainer = () => {
       submitButtonText={t('create')}
       onSubmit={handleSubmit}
       disabled={isCreatePetLoading}
-      initialValues={getInitialFormValues()}
+      initialValues={initialFormValues}
     />
   );
 };

@@ -8,7 +8,9 @@ import { Bucket } from '@google-cloud/storage';
 @Module({})
 export class FireBaseModule {
   static forRoot(): DynamicModule {
-    const serviceAccount: ServiceAccount = require(`../.${process.env.NODE_ENV}.fbsa.json`);
+    const serviceAccount: ServiceAccount = JSON.parse(
+      process.env.FB_SERVICE_ACCOUNT,
+    );
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),

@@ -3,25 +3,23 @@ import { IEventResDto } from '@pdoc/types';
 import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
 import { useStorage } from 'reactfire';
-import { isLoading, PetWithAvatarUrl } from '../../types';
+import { isLoading, PetPreviewWithAvatarUrl } from '../../types';
 import { isToday } from '../../utils/date.utils';
 import { getBucketDownloadUrl } from '../../utils/factory.utils';
 import { PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL } from './schemas';
 
 export type PetsAndUpcomingEvents = {
-  pets: PetWithAvatarUrl[];
+  pets: PetPreviewWithAvatarUrl[];
   upcomingEvents: IEventResDto[];
   todayEvents: IEventResDto[];
 } & isLoading;
 
 interface PetsAndUpcomingEventsGQLRes {
-  getPets: PetWithAvatarUrl[];
+  getPets: PetPreviewWithAvatarUrl[];
   getUpcomingEvents: IEventResDto[];
 }
 
 const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
-  const [pets, setPets] = useState<PetWithAvatarUrl[]>([]);
-
   const storage = useStorage();
   const { data, loading } = useQuery<PetsAndUpcomingEventsGQLRes>(
     PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL,
@@ -31,7 +29,7 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
           return;
         }
 
-        const _petsWithAvatars: PetWithAvatarUrl[] = [];
+        const _petsWithAvatars: PetPreviewWithAvatarUrl[] = [];
         const loadAvatars = async () => {
           for (let i = 0; i < getPets.length; i++) {
             const pet = getPets[i];
@@ -51,6 +49,9 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
     },
   );
 
+  const [pets, setPets] = useState<PetPreviewWithAvatarUrl[]>(
+    data?.getPets?.map((p) => ({ ...p, avatar: undefined })) ?? [],
+  );
   const [isLoading, setIsLoading] = useState<boolean>(loading);
 
   const { getUpcomingEvents: upcomingEvents }: PetsAndUpcomingEventsGQLRes =
@@ -59,7 +60,7 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
       getUpcomingEvents: [],
     };
 
-  const sortedPets: PetWithAvatarUrl[] = sortBy(pets, 'name') ?? [];
+  const sortedPets: PetPreviewWithAvatarUrl[] = sortBy(pets, 'name') ?? [];
 
   const sortedUpcomingEvents: IEventResDto[] =
     sortBy(

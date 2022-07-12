@@ -80,7 +80,7 @@ const PetProfilePage = () => {
   const { id: petId } = useParams<{ id: string }>();
   const { data: user } = useUser();
 
-  const { isLoading, pet: data } = useGetPetProfileGQL(petId ?? '');
+  const { isLoading, data } = useGetPetProfileGQL(petId ?? '');
 
   const [addOwner, { loading: isAddOwnerLoading }] = useMutation(
     ADD_OWNER_SCHEMA,

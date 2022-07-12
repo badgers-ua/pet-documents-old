@@ -12,10 +12,12 @@ export type PetProfileGQLRes = {
 };
 
 const useGetPetProfileGQL = (petId: string) => {
-  const [pet, setPet] = useState<PetProfileGQLRes>();
-
   const storage = useStorage();
-  const { loading, error: petLoadingError } = useQuery(PET_PROFILE_GQL, {
+  const {
+    data: res,
+    loading,
+    error: petLoadingError,
+  } = useQuery(PET_PROFILE_GQL, {
     variables: { petId },
     onCompleted: async ({ getPet, getEventsByPet }) => {
       const pet = { ...getPet };
@@ -27,16 +29,20 @@ const useGetPetProfileGQL = (petId: string) => {
       }
 
       setIsLoading(false);
-      setPet({
+      setData({
         getPet: pet,
         getEventsByPet,
       });
     },
   });
 
+  const [data, setData] = useState<PetProfileGQLRes>({
+    getPet: res?.getPet ? { ...res?.getPet, avatar: undefined } : undefined,
+    getEventsByPet: res?.getEventsByPet,
+  });
   const [isLoading, setIsLoading] = useState<boolean>(loading);
 
-  return { pet, isLoading, petLoadingError };
+  return { data, isLoading, petLoadingError };
 };
 
 export default useGetPetProfileGQL;

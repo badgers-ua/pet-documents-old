@@ -58,7 +58,7 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
       <Card>
         <CardContent sx={{ paddingBottom: 0 }}>
           <Box display="flex">
-            <Box minWidth="90px">
+            <Box minWidth="90px" maxWidth="90px" height="90px">
               {avatar ? (
                 <Avatar src={avatar} sx={{ width: '90px', height: '90px' }} />
               ) : (

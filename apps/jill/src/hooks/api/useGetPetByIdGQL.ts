@@ -7,25 +7,28 @@ import { PetWithAvatarUrl } from '../../types';
 
 const useGetPetByIdGQL = (petId: string) => {
   const storage = useStorage();
-  const { loading: isLoadingPet, error: petLoadingError } = useQuery(
-    PET_SCHEMA,
-    {
-      variables: { id: petId },
-      onCompleted: async ({ getPet }) => {
-        const pet = { ...getPet };
-        if (pet.avatar) {
-          const avatarDownloadUrl: string | undefined =
-            await getBucketDownloadUrl(storage, getPet.avatar);
-          pet.avatar = avatarDownloadUrl ?? pet.avatar;
-        }
-        setPet({
-          getPet: pet,
-        });
-      },
+  const {
+    data,
+    loading: isLoadingPet,
+    error: petLoadingError,
+  } = useQuery(PET_SCHEMA, {
+    variables: { id: petId },
+    onCompleted: async ({ getPet }) => {
+      const pet = { ...getPet };
+      if (pet.avatar) {
+        const avatarDownloadUrl: string | undefined =
+          await getBucketDownloadUrl(storage, getPet.avatar);
+        pet.avatar = avatarDownloadUrl ?? pet.avatar;
+      }
+      setPet({
+        getPet: pet,
+      });
     },
-  );
+  });
 
-  const [pet, setPet] = useState<{ getPet: PetWithAvatarUrl }>();
+  const [pet, setPet] = useState<{ getPet: PetWithAvatarUrl }>({
+    getPet: data?.getPet ? { ...data?.getPet, avatar: undefined } : undefined,
+  });
 
   return { pet, isLoadingPet, petLoadingError };
 };

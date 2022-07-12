@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import LocalTextField from '../../components/LocalTextField';
-import UploadPhoto from '../../components/UploadPhoto';
+import UploadPhoto from '../../components/UploadPhoto/UploadPhoto';
 import useGetBreedsBySpeciesGQL from '../../hooks/api/useGetBreedsBySpeciesGQL';
 import useCachedBreedsBySpeciesGQL from '../../hooks/cache/useCachedBreedsBySpeciesGQL';
 import { DropDownOption } from '../../types';

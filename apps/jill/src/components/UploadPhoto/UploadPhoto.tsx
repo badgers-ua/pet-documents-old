@@ -11,8 +11,8 @@ import 'cropperjs/dist/cropper.css';
 import { useEffect, useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { useTranslation } from 'react-i18next';
-import { dataURLtoFile } from '../utils/formatter.utils';
-import './c.css';
+import { dataURLtoFile } from '../../utils/formatter.utils';
+import './UploadPhoto.css';
 
 type UploadPhotoProps = {
   initialPhoto?: File;

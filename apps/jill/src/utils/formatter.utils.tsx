@@ -45,9 +45,13 @@ export const mapStaticArrayToDropDownOptions = (staticArr: IStaticResDto[]) =>
     ({ _id, name }) => ({ label: name, value: _id } as DropDownOption<string>),
   );
 
+export const getImageTypyFromBase64 = (base64: string): string => {
+  return (base64 as any).match(/:(.*?);/)[1];
+};
+
 export const dataURLtoFile = (dataurl: string): File => {
   let arr = dataurl.split(',') as any,
-    mime = arr[0].match(/:(.*?);/)[1],
+    mime = getImageTypyFromBase64(arr[0]),
     bstr = atob(arr[1]),
     n = bstr.length,
     u8arr = new Uint8Array(n);

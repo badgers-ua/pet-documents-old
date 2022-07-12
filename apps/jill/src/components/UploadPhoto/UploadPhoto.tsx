@@ -11,7 +11,10 @@ import 'cropperjs/dist/cropper.css';
 import { useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { useTranslation } from 'react-i18next';
-import { dataURLtoFile } from '../../utils/formatter.utils';
+import {
+  dataURLtoFile,
+  getImageTypyFromBase64,
+} from '../../utils/formatter.utils';
 import './UploadPhoto.css';
 
 type UploadPhotoProps = {
@@ -66,7 +69,10 @@ const UploadPhoto = ({
 
     setOpenDialog(false);
 
-    const croppedBase64: any = cropper.getCroppedCanvas().toDataURL();
+    const mime: string = getImageTypyFromBase64((cropper as any).url);
+    const croppedBase64: any = cropper
+      .getCroppedCanvas()
+      .toDataURL(mime, 80 / 100);
 
     setCropData(croppedBase64);
 

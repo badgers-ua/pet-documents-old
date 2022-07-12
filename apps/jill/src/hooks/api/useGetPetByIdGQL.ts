@@ -12,13 +12,14 @@ const useGetPetByIdGQL = (petId: string) => {
     {
       variables: { id: petId },
       onCompleted: async ({ getPet }) => {
-        if (!getPet.avatar) {
-          return;
+        const pet = { ...getPet };
+        if (pet.avatar) {
+          const avatarDownloadUrl: string | undefined =
+            await getBucketDownloadUrl(storage, getPet.avatar);
+          pet.avatar = avatarDownloadUrl ?? pet.avatar;
         }
-        const avatarDownloadUrl: string | undefined =
-          await getBucketDownloadUrl(storage, getPet.avatar);
         setPet({
-          getPet: { ...getPet, avatar: avatarDownloadUrl ?? getPet.avatar },
+          getPet: pet,
         });
       },
     },

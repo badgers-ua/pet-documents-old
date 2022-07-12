@@ -6,16 +6,16 @@ import {
   MaxLength,
   Max,
   IsMongoId,
+  IsBoolean,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import {
+  booleanTransformFormatter,
   numberedEnumValueLength,
   numberTransformFormatter,
 } from 'src/utils/formatter.utils';
 import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql';
 import { GENDER, SPECIES } from '@pdoc/types';
-
-const GraphQLUpload = require('graphql-upload/GraphQLUpload.js');
 
 @InputType()
 export class PetReqDto {
@@ -67,10 +67,6 @@ export class PetReqDto {
   @IsOptional()
   @Field(() => Int, { nullable: true })
   readonly weight?: number;
-
-  // TODO: avatar
-  @Field(() => GraphQLUpload, { nullable: true })
-  readonly avatar?: any;
 }
 
 @InputType()
@@ -78,5 +74,11 @@ export class PatchPetReqDto extends PetReqDto {
   @IsMongoId()
   @IsString()
   @Field()
-  _id: string;
+  readonly _id: string;
+
+  @Transform(booleanTransformFormatter)
+  @IsBoolean()
+  @IsOptional()
+  @Field()
+  readonly isAvatarChanged?: boolean;
 }

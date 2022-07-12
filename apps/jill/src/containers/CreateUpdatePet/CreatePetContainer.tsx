@@ -16,6 +16,7 @@ const initialFormValues: CRUPetFormValues = {
   weight: '',
   color: '',
   description: '',
+  avatar: null,
 };
 
 export const CreatePetContainer = () => {
@@ -39,6 +40,7 @@ export const CreatePetContainer = () => {
     weight,
     color,
     description,
+    avatar,
   }: CRUPetFormValues) => {
     const petReqDto: PetReqDto = {
       name,
@@ -55,7 +57,7 @@ export const CreatePetContainer = () => {
       notes: !!description ? description : null,
     };
 
-    loadCreatePet(petReqDto);
+    loadCreatePet(petReqDto, avatar);
   };
 
   return (

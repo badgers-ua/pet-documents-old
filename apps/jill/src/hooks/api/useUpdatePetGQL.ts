@@ -21,8 +21,13 @@ const useUpdatePetGQL = ({ petId, onCompleted }: UseUpdatePetGQLProps) => {
   );
 
   const loadUpdatePet = useMemo(
-    () => (patchPetReqDto: PatchPetReqDto) =>
-      updatePet({ variables: { patchPetReqDto } }),
+    () => (patchPetReqDto: PatchPetReqDto, avatar: File | null) => {
+      const body: any = { patchPetReqDto };
+      if (!!avatar) {
+        body.avatar = avatar;
+      }
+      return updatePet({ variables: body });
+    },
     [updatePet],
   );
 

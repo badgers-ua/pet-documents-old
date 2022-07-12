@@ -17,21 +17,19 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { IPetResDto } from '@pdoc/types';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
+import { PetWithAvatar } from '../hooks/usePetWithAvatar';
 import { ReactComponent as AddUserIcon } from '../icons/add-user.svg';
 import { ReactComponent as DeleteUserIcon } from '../icons/delete-user.svg';
 import { ReactComponent as GenderIcon } from '../icons/gender.svg';
 import { getAge, getUserDateFormat } from '../utils/date.utils';
-import {
-  getGenderLabel,
-  getPetPreviewAvatarBySpecies,
-} from '../utils/formatter.utils';
+import { getSpeciesLabel } from '../utils/factory.utils';
+import { getGenderLabel } from '../utils/formatter.utils';
 
 type PetInfoProps = {
-  pet: IPetResDto;
+  pet: PetWithAvatar;
   petActions: PetActionsProps;
 } & BoxProps;
 
@@ -47,6 +45,7 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
     weight,
     gender,
     breed,
+    avatar,
   } = pet;
   const { t } = useTranslation();
 
@@ -55,9 +54,7 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
       <Card>
         <CardContent sx={{ paddingBottom: 0 }}>
           <Box display="flex">
-            <Box minWidth="90px">
-              {getPetPreviewAvatarBySpecies(species, 90)}
-            </Box>
+            <Box minWidth="90px">{avatar}</Box>
             <Box ml={2} flex={1}>
               <Box
                 display="flex"
@@ -77,9 +74,11 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
                   {getAge(dateOfBirth)}
                 </Typography>
               )}
-              {!!breed && (
-                <Typography variant="subtitle1">{breed.name}</Typography>
-              )}
+              <Typography variant="subtitle1">
+                {`${getSpeciesLabel(species)}${
+                  !!breed ? ' - ' + breed?.name : ''
+                }`}
+              </Typography>
             </Box>
           </Box>
           <Box

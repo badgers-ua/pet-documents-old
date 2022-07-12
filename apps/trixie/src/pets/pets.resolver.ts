@@ -18,7 +18,7 @@ import { RemoveOwnerReqDto } from './dto/remove-owner-req.dto';
 import { DeletePetReqDto } from './dto/delete-pet-req.dto';
 import { DeletePetResDto } from './dto/delete-pet-res.dto';
 import { AddOwnerReqDto } from './dto/add-owner-req.dto';
-
+const GraphQLUpload = require('graphql-upload/GraphQLUpload.js');
 @Resolver()
 @UseGuards(FirebaseAuthGuard)
 export class PetsResolver {
@@ -43,20 +43,20 @@ export class PetsResolver {
   public createPet(
     @User() { uid }: auth.UserRecord,
     @Args('data') petReqDto: PetReqDto,
+    @Args({ name: 'avatar', type: () => GraphQLUpload, nullable: true }) avatar,
   ): Promise<CreatedPetResDto> {
-    // TODO: avatar
-    return this.petService.createPet(petReqDto, petReqDto.avatar, uid);
+    return this.petService.createPet(petReqDto, avatar, uid);
   }
 
   @Mutation(() => PatchedPetResDto, { name: 'patchPet' })
   public patchPet(
     @User() { uid }: auth.UserRecord,
     @Args('data') patchPetReqDto: PatchPetReqDto,
+    @Args({ name: 'avatar', type: () => GraphQLUpload, nullable: true }) avatar,
   ): Promise<PatchedPetResDto> {
-    // TODO: avatar
     return this.petService.patchPet(
       patchPetReqDto._id,
-      patchPetReqDto.avatar,
+      avatar,
       uid,
       patchPetReqDto,
     );

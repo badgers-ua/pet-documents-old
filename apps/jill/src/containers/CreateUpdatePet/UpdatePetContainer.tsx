@@ -34,6 +34,7 @@ const UpdatePetContainer = () => {
     weight,
     color,
     description,
+    avatar,
   }: CRUPetFormValues) => {
     const patchPetReqDto: PatchPetReqDto = {
       _id: petId ?? '',
@@ -51,7 +52,7 @@ const UpdatePetContainer = () => {
       notes: !!description ? description : null,
     };
 
-    loadUpdatePet(patchPetReqDto);
+    loadUpdatePet(patchPetReqDto, avatar);
   };
 
   useSetLoadingStatus({ isLoading: isUpdatePetLoading || isLoadingPet });
@@ -92,6 +93,7 @@ const UpdatePetContainer = () => {
     weight: Number.isInteger(weight) ? weight!.toString() : '',
     color: colour ?? '',
     description: notes ?? '',
+    avatar: null,
   };
 
   return (

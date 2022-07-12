@@ -17,7 +17,13 @@ const useCreatePetGQL = ({ onCompleted }: UseCreatePetGQLProps) => {
   );
 
   const loadCreatePet = useMemo(
-    () => (petReqDto: PetReqDto) => createPet({ variables: { petReqDto } }),
+    () => (petReqDto: PetReqDto, avatar: File | null) => {
+      const body: any = { petReqDto };
+      if (!!avatar) {
+        body.avatar = avatar;
+      }
+      return createPet({ variables: body });
+    },
     [createPet],
   );
 

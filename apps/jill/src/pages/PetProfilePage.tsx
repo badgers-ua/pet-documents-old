@@ -32,6 +32,7 @@ import {
   PET_SCHEMA,
   REMOVE_OWNER_SCHEMA,
 } from '../hooks/api/schemas';
+import usePetWithAvatar from '../hooks/usePetWithAvatar';
 import { useActiveProfileTabStore } from '../providers/store/active-pet-profile-tab/ActivePetProfileTabProvider';
 import { useLoaderStore } from '../providers/store/loader/LoaderStoreProvider';
 import {
@@ -87,6 +88,8 @@ const PetProfilePage = () => {
   const { data, loading } = useQuery<PetProfileGQLRes>(PET_PROFILE_GQL, {
     variables: { petId },
   });
+
+  const pet = usePetWithAvatar(data?.getPet);
 
   const [addOwner, { loading: isAddOwnerLoading }] = useMutation(
     ADD_OWNER_SCHEMA,
@@ -237,11 +240,11 @@ const PetProfilePage = () => {
   const formikEmailValues = useFormik(formikEmailOptions);
   const formikRadioValues = useFormik(formikRadioOptions);
 
-  if (!data) {
+  if (!pet) {
     return <CenteredNoDataMessage />;
   }
 
-  const { getPet: pet, getEventsByPet: events }: PetProfileGQLRes = data!;
+  const { getEventsByPet: events }: PetProfileGQLRes = data!;
 
   const togglePetAddOwnerFormDialog = () => {
     setAddOwnerPetDialogOpen(!addOwnerPetDialogOpen);

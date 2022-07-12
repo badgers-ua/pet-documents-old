@@ -8,14 +8,14 @@ import Stack, { StackProps } from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/system/Box';
 import 'cropperjs/dist/cropper.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import { useTranslation } from 'react-i18next';
 import { dataURLtoFile } from '../../utils/formatter.utils';
 import './UploadPhoto.css';
 
 type UploadPhotoProps = {
-  initialPhoto?: File;
+  initialPhoto?: string;
   onAvatarChange: (avatar: File) => void;
 } & StackProps;
 
@@ -36,13 +36,6 @@ const UploadPhoto = ({
   const [cropper, setCropper] = useState<Cropper>();
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!initialPhoto) {
-      return;
-    }
-    readAsDataURL(initialPhoto);
-  }, [initialPhoto]);
 
   const handleChange = (e: any) => {
     setOpenDialog(true);
@@ -112,7 +105,7 @@ const UploadPhoto = ({
             <Button onClick={getCropData}>{t('submit')}</Button>
           </DialogActions>
         </Dialog>
-        {!!cropData && (
+        {(!!cropData || !!initialPhoto) && (
           <Box
             onMouseEnter={() => {
               if (hover) {
@@ -134,7 +127,7 @@ const UploadPhoto = ({
             }}
           >
             <Avatar
-              src={cropData}
+              src={cropData || initialPhoto}
               sx={{
                 width: stackProps.width,
                 height: stackProps.height,
@@ -169,7 +162,7 @@ const UploadPhoto = ({
             type="file"
             onChange={handleChange}
           />
-          {!image && (
+          {!image && !initialPhoto && (
             <Tooltip title={t('uploadPhoto')} arrow>
               <IconButton
                 color="primary"

@@ -44,6 +44,7 @@ interface CreateUpdatePetFormProps {
   submitButtonText: string;
   disabled: boolean;
   initialValues: CRUPetFormValues;
+  avatar?: string;
   onSubmit: (
     values: CRUPetFormValues,
     formikHelpers: FormikHelpers<CRUPetFormValues>,
@@ -177,6 +178,7 @@ const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
                   />
                 </Box>
                 <UploadPhoto
+                  initialPhoto={props.avatar}
                   ml={2}
                   onAvatarChange={(avatar: File) => {
                     setFieldValue('avatar', avatar);

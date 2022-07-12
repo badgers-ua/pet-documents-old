@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 import { useStorage } from 'reactfire';
 import { getPetWithAvatar } from '../utils/factory.utils';
 
+export type PetWithAvatarUrl = Omit<IPetResDto, 'avatar'> & {
+  avatar?: string;
+};
+
 export type PetWithAvatar = Omit<IPetResDto, 'avatar'> & {
   avatar: JSX.Element;
 };

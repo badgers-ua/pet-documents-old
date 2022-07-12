@@ -1,6 +1,5 @@
 import { ApolloCache } from '@apollo/client/core';
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
-import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
@@ -10,7 +9,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { IEventResDto, IPetResDto } from '@pdoc/types';
+import { IEventResDto } from '@pdoc/types';
 import { FormikConfig, useFormik } from 'formik';
 import i18next from 'i18next';
 import { SyntheticEvent, useEffect, useState } from 'react';
@@ -28,11 +27,12 @@ import {
   ADD_OWNER_SCHEMA,
   DELETE_EVENT_SCHEMA,
   DELETE_PET_SCHEMA,
-  PET_PROFILE_GQL,
   PET_SCHEMA,
   REMOVE_OWNER_SCHEMA,
 } from '../hooks/api/schemas';
-import usePetWithAvatar from '../hooks/usePetWithAvatar';
+import useGetPetProfileGQL, {
+  PetProfileGQLRes,
+} from '../hooks/api/useGetPetProfileGQL';
 import { useActiveProfileTabStore } from '../providers/store/active-pet-profile-tab/ActivePetProfileTabProvider';
 import { useLoaderStore } from '../providers/store/loader/LoaderStoreProvider';
 import {
@@ -44,11 +44,6 @@ import {
   RemoveOwnerResDto,
 } from '../types';
 import { getEventLabel, getHeaderHeight } from '../utils/factory.utils';
-
-interface PetProfileGQLRes {
-  getPet: IPetResDto;
-  getEventsByPet: IEventResDto[];
-}
 
 interface EmailFormDialogValues {
   email: string;
@@ -85,11 +80,7 @@ const PetProfilePage = () => {
   const { id: petId } = useParams<{ id: string }>();
   const { data: user } = useUser();
 
-  const { data, loading } = useQuery<PetProfileGQLRes>(PET_PROFILE_GQL, {
-    variables: { petId },
-  });
-
-  const pet = usePetWithAvatar(data?.getPet);
+  const { isLoading, pet: data } = useGetPetProfileGQL(petId ?? '');
 
   const [addOwner, { loading: isAddOwnerLoading }] = useMutation(
     ADD_OWNER_SCHEMA,
@@ -222,14 +213,14 @@ const PetProfilePage = () => {
 
   useEffect(() => {
     setIsLoading(
-      loading ||
+      isLoading ||
         isAddOwnerLoading ||
         isRemoveOwnerLoading ||
         isDeletePetLoading ||
         isDeleteEventLoading,
     );
   }, [
-    loading,
+    isLoading,
     setIsLoading,
     isAddOwnerLoading,
     isRemoveOwnerLoading,
@@ -240,11 +231,11 @@ const PetProfilePage = () => {
   const formikEmailValues = useFormik(formikEmailOptions);
   const formikRadioValues = useFormik(formikRadioOptions);
 
-  if (!pet) {
+  if (!data?.getPet) {
     return <CenteredNoDataMessage />;
   }
 
-  const { getEventsByPet: events }: PetProfileGQLRes = data!;
+  const { getEventsByPet: events, getPet: pet }: PetProfileGQLRes = data!;
 
   const togglePetAddOwnerFormDialog = () => {
     setAddOwnerPetDialogOpen(!addOwnerPetDialogOpen);

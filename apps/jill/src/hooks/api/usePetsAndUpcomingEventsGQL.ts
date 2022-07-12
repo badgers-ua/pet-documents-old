@@ -1,35 +1,66 @@
 import { useQuery } from '@apollo/client';
+import { IEventResDto } from '@pdoc/types';
 import sortBy from 'lodash/sortBy';
+import { useState } from 'react';
+import { useStorage } from 'reactfire';
 import { isLoading } from '../../types';
 import { isToday } from '../../utils/date.utils';
+import { getBucketDownloadUrl } from '../../utils/factory.utils';
+import { PetWithAvatarUrl } from './../usePetWithAvatar';
 import { PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL } from './schemas';
-import { IEventResDto, IPetPreviewResDto } from '@pdoc/types';
 
 export type PetsAndUpcomingEvents = {
-  pets: IPetPreviewResDto[];
+  pets: PetWithAvatarUrl[];
   upcomingEvents: IEventResDto[];
   todayEvents: IEventResDto[];
 } & isLoading;
 
 interface PetsAndUpcomingEventsGQLRes {
-  getPets: IPetPreviewResDto[];
+  getPets: PetWithAvatarUrl[];
   getUpcomingEvents: IEventResDto[];
 }
 
 const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
+  const [pets, setPets] = useState<PetWithAvatarUrl[]>([]);
+
+  const storage = useStorage();
   const { data, loading } = useQuery<PetsAndUpcomingEventsGQLRes>(
     PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL,
+    {
+      onCompleted: async ({ getPets }) => {
+        if (!getPets.length) {
+          return;
+        }
+
+        const _petsWithAvatars: PetWithAvatarUrl[] = [];
+        const loadAvatars = async () => {
+          for (let i = 0; i < getPets.length; i++) {
+            const pet = getPets[i];
+
+            const avatar: string | undefined = pet.avatar
+              ? await getBucketDownloadUrl(storage, pet.avatar)
+              : undefined;
+
+            _petsWithAvatars.push({ ...pet, avatar });
+          }
+
+          setIsLoading(false);
+          setPets(_petsWithAvatars);
+        };
+        loadAvatars();
+      },
+    },
   );
 
-  const {
-    getPets: pets,
-    getUpcomingEvents: upcomingEvents,
-  }: PetsAndUpcomingEventsGQLRes = data ?? {
-    getPets: [],
-    getUpcomingEvents: [],
-  };
+  const [isLoading, setIsLoading] = useState<boolean>(loading);
 
-  const sortedPets: IPetPreviewResDto[] = sortBy(pets, 'name') ?? [];
+  const { getUpcomingEvents: upcomingEvents }: PetsAndUpcomingEventsGQLRes =
+    data ?? {
+      getPets: [],
+      getUpcomingEvents: [],
+    };
+
+  const sortedPets: PetWithAvatarUrl[] = sortBy(pets, 'name') ?? [];
 
   const sortedUpcomingEvents: IEventResDto[] =
     sortBy(
@@ -47,7 +78,7 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
     pets: sortedPets,
     upcomingEvents: sortedUpcomingEvents,
     todayEvents: sortedTodayEvents,
-    isLoading: loading,
+    isLoading,
   };
 };
 

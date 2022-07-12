@@ -1,4 +1,4 @@
-import { GENDER, SPECIES } from '@pdoc/types';
+import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
 
 export enum NODE_ENV {
   DEV = 'development',
@@ -93,4 +93,8 @@ export interface AddEventToCalendarParams {
 
 export type isLoading = {
   isLoading: boolean;
+};
+
+export type PetWithAvatarUrl = Omit<IPetResDto, 'avatar'> & {
+  avatar?: string;
 };

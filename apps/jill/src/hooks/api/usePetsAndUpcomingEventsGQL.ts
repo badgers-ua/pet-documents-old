@@ -3,10 +3,9 @@ import { IEventResDto } from '@pdoc/types';
 import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
 import { useStorage } from 'reactfire';
-import { isLoading } from '../../types';
+import { isLoading, PetWithAvatarUrl } from '../../types';
 import { isToday } from '../../utils/date.utils';
 import { getBucketDownloadUrl } from '../../utils/factory.utils';
-import { PetWithAvatarUrl } from './../usePetWithAvatar';
 import { PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL } from './schemas';
 
 export type PetsAndUpcomingEvents = {

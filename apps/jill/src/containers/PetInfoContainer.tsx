@@ -21,10 +21,10 @@ import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import { PetWithAvatarUrl } from '../hooks/usePetWithAvatar';
 import { ReactComponent as AddUserIcon } from '../icons/add-user.svg';
 import { ReactComponent as DeleteUserIcon } from '../icons/delete-user.svg';
 import { ReactComponent as GenderIcon } from '../icons/gender.svg';
+import { PetWithAvatarUrl } from '../types';
 import { getAge, getUserDateFormat } from '../utils/date.utils';
 import { getSpeciesLabel } from '../utils/factory.utils';
 import {

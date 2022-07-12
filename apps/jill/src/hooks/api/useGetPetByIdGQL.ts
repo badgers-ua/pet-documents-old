@@ -1,9 +1,9 @@
 import { useStorage } from 'reactfire';
 import { getBucketDownloadUrl } from './../../utils/factory.utils';
-import { PetWithAvatarUrl } from './../usePetWithAvatar';
 import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import { PET_SCHEMA } from './schemas';
 import { useState } from 'react';
+import { PetWithAvatarUrl } from '../../types';
 
 const useGetPetByIdGQL = (petId: string) => {
   const storage = useStorage();

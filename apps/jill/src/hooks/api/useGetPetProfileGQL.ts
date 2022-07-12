@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import { IEventResDto } from '@pdoc/types';
 import { useState } from 'react';
 import { useStorage } from 'reactfire';
+import { PetWithAvatarUrl } from '../../types';
 import { getBucketDownloadUrl } from './../../utils/factory.utils';
-import { PetWithAvatarUrl } from './../usePetWithAvatar';
 import { PET_PROFILE_GQL } from './schemas';
 
 export type PetProfileGQLRes = {

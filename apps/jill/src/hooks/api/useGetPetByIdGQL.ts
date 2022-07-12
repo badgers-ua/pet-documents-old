@@ -15,11 +15,11 @@ const useGetPetByIdGQL = (petId: string) => {
         if (!getPet.avatar) {
           return;
         }
-        const avatarDownloadUrl: string = await getBucketDownloadUrl(
-          storage,
-          getPet.avatar,
-        );
-        setPet({ getPet: { ...getPet, avatar: avatarDownloadUrl } });
+        const avatarDownloadUrl: string | undefined =
+          await getBucketDownloadUrl(storage, getPet.avatar);
+        setPet({
+          getPet: { ...getPet, avatar: avatarDownloadUrl ?? getPet.avatar },
+        });
       },
     },
   );

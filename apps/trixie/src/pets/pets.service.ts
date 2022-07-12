@@ -76,7 +76,9 @@ export class PetsService {
 
     if (!!existingPet.avatar && petDto.isAvatarChanged) {
       const file: File = this._bucket.file(existingPet.avatar);
-      await file.delete();
+      try {
+        await file.delete();
+      } catch (e) {}
     }
 
     let newFileBucketPath: string | null = null;

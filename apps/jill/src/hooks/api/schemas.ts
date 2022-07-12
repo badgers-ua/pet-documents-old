@@ -170,8 +170,8 @@ export const DELETE_EVENT_SCHEMA = gql`
 `;
 
 export const PATCH_PET_SCHEMA = gql`
-  mutation patchPet($patchPetReqDto: PatchPetReqDto!) {
-    patchPet(data: $patchPetReqDto) {
+  mutation patchPet($patchPetReqDto: PatchPetReqDto!, $avatar: Upload) {
+    patchPet(data: $patchPetReqDto, avatar: $avatar) {
       _id
     }
   }

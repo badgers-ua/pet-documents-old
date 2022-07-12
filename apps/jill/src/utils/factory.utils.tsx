@@ -96,7 +96,11 @@ export const getBucketDownloadUrl = async (
   storage: FirebaseStorage,
   url: string,
 ) => {
-  return await getDownloadURL(ref(storage, url));
+  try {
+    return await getDownloadURL(ref(storage, url));
+  } catch (e) {
+    console.error('Failed generate avatar url');
+  }
 };
 
 export const getPetWithAvatar = async (

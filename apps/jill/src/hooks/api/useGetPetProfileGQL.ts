@@ -21,11 +21,9 @@ const useGetPetProfileGQL = (petId: string) => {
       const pet = { ...getPet };
 
       if (pet.avatar) {
-        const avatarDownloadUrl: string = await getBucketDownloadUrl(
-          storage,
-          getPet.avatar,
-        );
-        pet.avatar = avatarDownloadUrl;
+        const avatarDownloadUrl: string | undefined =
+          await getBucketDownloadUrl(storage, getPet.avatar);
+        pet.avatar = avatarDownloadUrl ?? pet.avatar;
       }
 
       setIsLoading(false);

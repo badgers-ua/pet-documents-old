@@ -23,8 +23,9 @@ const useUpdatePetGQL = ({ petId, onCompleted }: UseUpdatePetGQLProps) => {
   const loadUpdatePet = useMemo(
     () => (patchPetReqDto: PatchPetReqDto, avatar: File | null) => {
       const body: any = { patchPetReqDto };
-      if (!!avatar) {
+      if (avatar instanceof File) {
         body.avatar = avatar;
+        body.patchPetReqDto.isAvatarChanged = true;
       }
       return updatePet({ variables: body });
     },

@@ -1,20 +1,21 @@
-import { onError } from '@apollo/client/link/error';
-import { NODE_ENV } from '../types';
-import { setContext } from '@apollo/client/link/context';
-import { useSnackbar } from 'notistack';
-import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
-import { useEffect, useState } from 'react';
 import { InMemoryCache } from '@apollo/client/cache';
-import { ApolloClient, DefaultOptions } from '@apollo/client/core/ApolloClient';
-import { createHttpLink } from '@apollo/client/link/http';
 import { concat, from } from '@apollo/client/core';
+import { ApolloClient, DefaultOptions } from '@apollo/client/core/ApolloClient';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { ApolloProvider } from '@apollo/client/react/context/ApolloProvider';
+import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
+import { useSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
 import { useSigninCheck } from 'reactfire';
+import { NODE_ENV } from '../types';
+const createUploadLink = require('apollo-upload-client/public/createUploadLink.js');
 
 const cache = new InMemoryCache();
 const defaultOptions: DefaultOptions = {
   watchQuery: { fetchPolicy: 'cache-and-network' },
 };
+const apiUrl = `${process.env.REACT_APP_API_URL}/graphql`;
 
 const ApolloProviderLocal = ({ children }: { children: JSX.Element }) => {
   const { data } = useSigninCheck();
@@ -36,10 +37,6 @@ const ApolloProviderLocal = ({ children }: { children: JSX.Element }) => {
   if (!cacheLoaded) {
     return <></>;
   }
-
-  const httpLink = createHttpLink({
-    uri: `${process.env.REACT_APP_API_URL}/graphql`,
-  });
 
   const authLink = setContext(async (_, { headers }) => {
     const token = await data?.user?.getIdToken();
@@ -67,11 +64,13 @@ const ApolloProviderLocal = ({ children }: { children: JSX.Element }) => {
     }
   });
 
-  const link = concat(authLink, httpLink);
+  const uploadLink = createUploadLink({ uri: apiUrl });
+  const authenticatedHttpLink = concat(authLink, uploadLink);
+  const link = from([errorLink, authenticatedHttpLink]);
 
   const client = new ApolloClient({
     connectToDevTools: process.env.NODE_ENV === NODE_ENV.DEV,
-    link: from([errorLink, link]),
+    link,
     cache,
     defaultOptions,
   });

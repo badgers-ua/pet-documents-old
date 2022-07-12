@@ -1,4 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
@@ -17,6 +18,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import LocalTextField from '../../components/LocalTextField';
+import UploadPhoto from '../../components/UploadPhoto/UploadPhoto';
 import useGetBreedsBySpeciesGQL from '../../hooks/api/useGetBreedsBySpeciesGQL';
 import useCachedBreedsBySpeciesGQL from '../../hooks/cache/useCachedBreedsBySpeciesGQL';
 import { DropDownOption } from '../../types';
@@ -35,12 +37,14 @@ export interface CRUPetFormValues {
   weight: string;
   color: string;
   description: string;
+  avatar: File | null;
 }
 
 interface CreateUpdatePetFormProps {
   submitButtonText: string;
   disabled: boolean;
   initialValues: CRUPetFormValues;
+  avatar?: string;
   onSubmit: (
     values: CRUPetFormValues,
     formikHelpers: FormikHelpers<CRUPetFormValues>,
@@ -108,6 +112,7 @@ const validationSchema = Yup.object({
         .toJSDate(),
       i18next.t('fieldDateOfBirthFutureDateValidator'),
     ),
+  avatar: Yup.object().nullable(),
 });
 
 const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
@@ -129,6 +134,7 @@ const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
     enableReinitialize: true,
     onSubmit,
   });
+
   const { loadBreedsBySpecies, isLoadingBreeds } = useGetBreedsBySpeciesGQL();
   const { loadCachedBreedsBySpecies } = useCachedBreedsBySpeciesGQL();
 
@@ -153,21 +159,36 @@ const CreateUpdatePetForm = (props: CreateUpdatePetFormProps) => {
         <Grid item xs={12}>
           <form autoComplete="off" onSubmit={handleSubmit} noValidate>
             <Stack mt={2} spacing={2}>
-              <LocalTextField
-                fullWidth
-                variant="outlined"
-                label={t('name')}
-                inputProps={{
-                  maxLength: maxNameFieldLength,
-                }}
-                required
-                name="name"
-                error={!!touched.name && !!errors.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.name}
-                helperText={touched.name && errors.name}
-              />
+              <Stack direction="row">
+                <Box flex={1}>
+                  <LocalTextField
+                    fullWidth
+                    variant="outlined"
+                    label={t('name')}
+                    inputProps={{
+                      maxLength: maxNameFieldLength,
+                    }}
+                    required
+                    name="name"
+                    error={!!touched.name && !!errors.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.name}
+                    helperText={touched.name && errors.name}
+                  />
+                </Box>
+                <UploadPhoto
+                  initialPhoto={props.avatar}
+                  ml={2}
+                  onAvatarChange={(avatar: File) => {
+                    setFieldValue('avatar', avatar);
+                  }}
+                  height={96}
+                  width={96}
+                  alignItems="center"
+                  justifyContent="center"
+                />
+              </Stack>
               <Autocomplete
                 fullWidth
                 noOptionsText={t('noOptions')}

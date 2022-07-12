@@ -1,4 +1,4 @@
-import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
+import { GENDER, SPECIES } from '@pdoc/types';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import CenteredNoDataMessage from '../../components/CenteredNoDataMessage';
 import useGetPetByIdGQL from '../../hooks/api/useGetPetByIdGQL';
 import useUpdatePetGQL from '../../hooks/api/useUpdatePetGQL';
 import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
-import { DropDownOption, PatchPetReqDto } from '../../types';
+import { DropDownOption, PatchPetReqDto, PetWithAvatarUrl } from '../../types';
 import { getDateWithMidnightUTCTime } from '../../utils/date.utils';
 import { getSpeciesLabel } from '../../utils/factory.utils';
 import { getGenderLabel } from '../../utils/formatter.utils';
@@ -34,6 +34,7 @@ const UpdatePetContainer = () => {
     weight,
     color,
     description,
+    avatar,
   }: CRUPetFormValues) => {
     const patchPetReqDto: PatchPetReqDto = {
       _id: petId ?? '',
@@ -51,7 +52,7 @@ const UpdatePetContainer = () => {
       notes: !!description ? description : null,
     };
 
-    loadUpdatePet(patchPetReqDto);
+    loadUpdatePet(patchPetReqDto, avatar);
   };
 
   useSetLoadingStatus({ isLoading: isUpdatePetLoading || isLoadingPet });
@@ -70,8 +71,9 @@ const UpdatePetContainer = () => {
       weight,
       colour,
       notes,
+      avatar,
     },
-  }: { getPet: IPetResDto } = pet;
+  }: { getPet: PetWithAvatarUrl } = pet;
 
   const initialValues: CRUPetFormValues = {
     name,
@@ -92,10 +94,12 @@ const UpdatePetContainer = () => {
     weight: Number.isInteger(weight) ? weight!.toString() : '',
     color: colour ?? '',
     description: notes ?? '',
+    avatar: null,
   };
 
   return (
     <CreateUpdatePetForm
+      avatar={avatar}
       submitButtonText={t('update')}
       onSubmit={handleSubmit}
       disabled={isUpdatePetLoading}

@@ -1,15 +1,40 @@
+import { Bucket } from '@google-cloud/storage';
+import { File } from '@google-cloud/storage/build/src/file';
 import {
   BadRequestException,
   Inject,
   Injectable,
-  InternalServerErrorException,
   NotAcceptableException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { auth } from 'firebase-admin';
+import { createWriteStream, unlinkSync } from 'fs';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
+import { join } from 'path';
+import { forkJoin, from, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { v4 as uuid } from 'uuid';
+import { Event, EventDocument } from '../events/schemas/event.schema';
+import { Owner } from '../shared/types';
+import { UsersService } from '../shared/users/users.service';
+import { CatBreed, CatBreedDocument } from '../static/schemas/cat-breed.schema';
+import { DogBreed, DogBreedDocument } from '../static/schemas/dog-breed.schema';
+import { petHasOwnerMessageFormatter } from '../utils/formatter.utils';
+import { FB_BUCKET_PROVIDER_KEY } from '../_constants';
+import { AddOwnerReqDto } from './dto/add-owner-req.dto';
+import { AddOwnerResDto } from './dto/add-owner-res.dto';
+import { DeletePetResDto } from './dto/delete-pet-res.dto';
+import { PatchPetReqDto, PetReqDto } from './dto/pet-req.dto';
+import {
+  CreatedPetResDto,
+  PatchedPetResDto,
+  PetPreviewResDto,
+  PetResDto,
+} from './dto/pet-res.dto';
+import { RemoveOwnerReqDto } from './dto/remove-owner-req.dto';
+import { RemoveOwnerResDto } from './dto/remove-owner-res.dto';
 import { Pet, PetDocument } from './schemas/pet.schema';
-import { PetReqDto } from './dto/pet-req.dto';
 import {
   PET_CRUD_ERROR,
   PET_LAST_OWNER_ERROR,
@@ -17,32 +42,6 @@ import {
   PET_LIMIT_REACHED_BY,
   USER_CRUD_ERROR,
 } from './_constants';
-import { CatBreed, CatBreedDocument } from '../static/schemas/cat-breed.schema';
-import { DogBreed, DogBreedDocument } from '../static/schemas/dog-breed.schema';
-import { AddOwnerReqDto } from './dto/add-owner-req.dto';
-import { petHasOwnerMessageFormatter } from '../utils/formatter.utils';
-import {
-  CreatedPetResDto,
-  PatchedPetResDto,
-  PetPreviewResDto,
-  PetResDto,
-} from './dto/pet-res.dto';
-import { unlinkSync } from 'fs';
-import { FB_BUCKET_PROVIDER_KEY } from '../_constants';
-import { Bucket } from '@google-cloud/storage';
-import { UploadResponse } from '@google-cloud/storage/build/src/bucket';
-import { forkJoin, from, of } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { File } from '@google-cloud/storage/build/src/file';
-import { EditPetReqDto } from './dto/edit-pet-req.dto';
-import { UsersService } from '../shared/users/users.service';
-import { auth } from 'firebase-admin';
-import { Event, EventDocument } from '../events/schemas/event.schema';
-import { Owner } from '../shared/types';
-import { AddOwnerResDto } from './dto/add-owner-res.dto';
-import { RemoveOwnerResDto } from './dto/remove-owner-res.dto';
-import { RemoveOwnerReqDto } from './dto/remove-owner-req.dto';
-import { DeletePetResDto } from './dto/delete-pet-res.dto';
 
 @Injectable()
 export class PetsService {
@@ -61,52 +60,47 @@ export class PetsService {
     petId: string,
     avatar,
     ownerId: string,
-    petDto: EditPetReqDto,
+    petDto: PatchPetReqDto,
   ): Promise<PatchedPetResDto> {
-    return await from(
-      this.petModel.findById(new mongoose.Types.ObjectId(petId)).exec(),
-    )
-      .pipe(
-        filter((pet) => {
-          if (!pet) {
-            throw new BadRequestException(PET_CRUD_ERROR);
-          }
-          if (!pet.owners.map((objId) => objId).includes(ownerId)) {
-            throw new BadRequestException(PET_CRUD_ERROR);
-          }
-          return !!pet;
-        }),
-        switchMap((pet: PetDocument) => {
-          if (!!pet.avatar && petDto.isAvatarChanged) {
-            const file: File = this._bucket.file(pet.avatar);
-            return forkJoin([of(pet), from(file.delete())]);
-          }
-          return forkJoin([of(pet), of(null)]);
-        }),
-        switchMap(([pet]) => {
-          return petDto.isAvatarChanged
-            ? forkJoin([of(pet), this._getUploadedFileObservable(avatar)])
-            : forkJoin([of(pet), of(null)]);
-        }),
-        switchMap(([pet, avatarFileName]) => {
-          return this.petModel
-            .findOneAndUpdate(
-              { _id: new mongoose.Types.ObjectId(petId) },
-              {
-                ...petDto,
-                avatar: petDto.isAvatarChanged ? avatarFileName : pet.avatar,
-              },
-              {
-                new: true,
-              },
-            )
-            .exec();
-        }),
-        map(({ _id }: PetDocument) => {
-          return new PatchedPetResDto(_id);
-        }),
+    const existingPet = await this.petModel
+      .findById(new mongoose.Types.ObjectId(petId))
+      .exec();
+
+    if (!existingPet) {
+      throw new BadRequestException(PET_CRUD_ERROR);
+    }
+
+    if (!existingPet.owners.map((objId) => objId).includes(ownerId)) {
+      throw new BadRequestException(PET_CRUD_ERROR);
+    }
+
+    if (!!existingPet.avatar && petDto.isAvatarChanged) {
+      const file: File = this._bucket.file(existingPet.avatar);
+      try {
+        await file.delete();
+      } catch (e) {}
+    }
+
+    let newFileBucketPath: string | null = null;
+
+    if (petDto.isAvatarChanged) {
+      newFileBucketPath = await this.uploadAvatarToBucket(avatar);
+    }
+
+    const { _id } = await this.petModel
+      .findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(petId) },
+        {
+          ...petDto,
+          avatar: petDto.isAvatarChanged ? newFileBucketPath : avatar,
+        },
+        {
+          new: true,
+        },
       )
-      .toPromise();
+      .exec();
+
+    return new PatchedPetResDto(_id);
   }
 
   public async addOwner(
@@ -338,27 +332,19 @@ export class PetsService {
       throw new NotAcceptableException(PET_LIMIT_REACHED);
     }
 
-    return await of(avatar)
-      .pipe(
-        switchMap((avatar) => {
-          return this._getUploadedFileObservable(avatar);
-        }),
-        map((avatarFileName?: string) => {
-          const newPet: Pet = {
-            owners: [ownerId],
-            avatar: avatarFileName,
-            ...petDto,
-          };
-          return newPet;
-        }),
-        switchMap((newPet: Pet) => {
-          return new this.petModel(newPet).save();
-        }),
-        map(({ _id }: PetDocument) => {
-          return new CreatedPetResDto(_id);
-        }),
-      )
-      .toPromise();
+    const avatarFileName: string = !!avatar
+      ? await this.uploadAvatarToBucket(avatar)
+      : null;
+
+    const newPet: Pet = {
+      owners: [ownerId],
+      avatar: avatarFileName,
+      ...petDto,
+    };
+
+    const { _id } = await new this.petModel(newPet).save();
+
+    return new CreatedPetResDto(_id);
   }
 
   public async deletePet(
@@ -401,30 +387,30 @@ export class PetsService {
     return { _id: petId };
   }
 
-  private _deleteAvatarFile(avatar): void {
-    try {
-      return unlinkSync(avatar.path);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  private async uploadAvatarToBucket(
+    { createReadStream, mimetype }: any,
+    id = uuid(),
+  ): Promise<string> {
+    const stream = createReadStream();
 
-  private _getUploadedFileObservable(avatar) {
-    return !!avatar
-      ? from(
-          this._bucket.upload(avatar.path, {
-            gzip: true,
-            destination: `pet-photos/${avatar.filename}`,
-          }),
-        ).pipe(
-          tap(() => this._deleteAvatarFile(avatar)),
-          map(([file]: UploadResponse) => {
-            return file.name;
-          }),
-          catchError(() => {
-            throw new InternalServerErrorException();
-          }),
-        )
-      : of(null);
+    const fileName = `${id}.${mimetype.split('/')[1]}`;
+
+    const filePath: string = await new Promise((resolve) => {
+      const createdStream = stream.pipe(
+        createWriteStream(join(__dirname, '/' + fileName)),
+      );
+      setTimeout(() => {
+        resolve(createdStream.path);
+      });
+    });
+
+    const [{ name: bucketFilePath }] = await this._bucket.upload(filePath, {
+      gzip: true,
+      destination: `pet-photos/${fileName}`,
+    });
+
+    unlinkSync(filePath);
+
+    return bucketFilePath;
   }
 }

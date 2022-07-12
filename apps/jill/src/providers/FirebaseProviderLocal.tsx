@@ -1,13 +1,14 @@
-import React from 'react';
+import { FirebaseOptions } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import {
   AuthProvider,
   FirebaseAppProvider,
+  StorageProvider,
   SuspenseWithPerf,
   useFirebaseApp,
 } from 'reactfire';
 import { Children } from '../types';
-import { FirebaseOptions } from 'firebase/app';
 
 const firebaseConfig: FirebaseOptions = JSON.parse(
   process.env.REACT_APP_FIREBASE_CONFIG ?? '',
@@ -17,7 +18,9 @@ const FirebaseProviderLocal = ({ children }: Children) => {
   return (
     <FirebaseAppProvider firebaseConfig={firebaseConfig} suspense>
       <SuspenseWithPerf traceId={'firebase-user-wait'} fallback={<></>}>
-        <AuthProviderLocal>{children}</AuthProviderLocal>
+        <AuthProviderLocal>
+          <StorageProviderLocal>{children}</StorageProviderLocal>
+        </AuthProviderLocal>
       </SuspenseWithPerf>
     </FirebaseAppProvider>
   );
@@ -28,6 +31,13 @@ const AuthProviderLocal = ({ children }: Children) => {
   const auth = getAuth(app);
 
   return <AuthProvider sdk={auth}>{children}</AuthProvider>;
+};
+
+const StorageProviderLocal = ({ children }: Children) => {
+  const app = useFirebaseApp();
+  const storage = getStorage(app);
+
+  return <StorageProvider sdk={storage}>{children}</StorageProvider>;
 };
 
 export default FirebaseProviderLocal;

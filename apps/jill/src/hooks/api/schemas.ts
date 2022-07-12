@@ -1,18 +1,11 @@
 import { gql } from '@apollo/client/core';
+import { PET_COMMON_FRAGMENT } from './fragments';
 
 export const PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL = gql`
+  ${PET_COMMON_FRAGMENT}
   query petsAndUpcomingEvents {
     getPets {
-      _id
-      name
-      species
-      owners
-      gender
-      dateOfBirth
-      colour
-      notes
-      weight
-      breed
+      ...PetCommon
     }
     getUpcomingEvents {
       _id
@@ -51,6 +44,7 @@ export const PETS_SCHEMA = gql`
       notes
       weight
       breed
+      avatar
     }
   }
 `;
@@ -65,8 +59,8 @@ export const GET_BREEDS_BY_SPECIES_SCHEMA = gql`
 `;
 
 export const CREATE_PET_SCHEMA = gql`
-  mutation createPet($petReqDto: PetReqDto!) {
-    createPet(data: $petReqDto) {
+  mutation createPet($petReqDto: PetReqDto!, $avatar: Upload) {
+    createPet(data: $petReqDto, avatar: $avatar) {
       _id
     }
   }
@@ -83,6 +77,7 @@ export const PET_SCHEMA = gql`
       colour
       notes
       weight
+      avatar
       owners {
         _id
         name
@@ -107,6 +102,7 @@ export const PET_PROFILE_GQL = gql`
       colour
       notes
       weight
+      avatar
       owners {
         _id
         name
@@ -174,8 +170,8 @@ export const DELETE_EVENT_SCHEMA = gql`
 `;
 
 export const PATCH_PET_SCHEMA = gql`
-  mutation patchPet($patchPetReqDto: PatchPetReqDto!) {
-    patchPet(data: $patchPetReqDto) {
+  mutation patchPet($patchPetReqDto: PatchPetReqDto!, $avatar: Upload) {
+    patchPet(data: $patchPetReqDto, avatar: $avatar) {
       _id
     }
   }

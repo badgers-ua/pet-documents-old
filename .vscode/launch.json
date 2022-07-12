@@ -10,7 +10,7 @@
       "name": "Jill",
       "port": 9222,
       "urlFilter": "http://localhost:3000/*",
-      "webRoot": "${workspaceFolder}/pet-documents-web"
+      "webRoot": "${workspaceFolder}/apps/jill"
     }
   ]
 }

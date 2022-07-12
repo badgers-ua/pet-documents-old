@@ -1,10 +1,11 @@
-import { DropDownOption } from '../types';
-import sortBy from 'lodash/sortBy';
-import { getGenderLabel } from './formatter.utils';
-import i18next from 'i18next';
 import { EVENT, GENDER, SPECIES } from '@pdoc/types';
+import { FirebaseStorage, getDownloadURL, ref } from 'firebase/storage';
+import i18next from 'i18next';
+import sortBy from 'lodash/sortBy';
+import { DropDownOption } from '../types';
+import { getGenderLabel } from './formatter.utils';
 
-export const getEnumIntegerValues = <T>(_enum: object) =>
+export const getEnumIntegerValues = <T,>(_enum: object) =>
   Object.values(_enum).filter((value: string | number) =>
     Number.isInteger(value),
   ) as T[];
@@ -79,4 +80,15 @@ export const getHeaderHeight = (theme: any, isXs: boolean): number => {
   const [mobileHeaderHeight, , { minHeight: deskTopHeaderHeight }] =
     Object.values(theme.mixins.toolbar);
   return isXs ? mobileHeaderHeight : deskTopHeaderHeight;
+};
+
+export const getBucketDownloadUrl = async (
+  storage: FirebaseStorage,
+  url: string,
+) => {
+  try {
+    return await getDownloadURL(ref(storage, url));
+  } catch (e) {
+    console.error('Failed generate avatar url');
+  }
 };

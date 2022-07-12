@@ -65,5 +65,5 @@ After running `yarn run start`, api docs are available under http://localhost:50
 7. If you created an _app_ please add following line to newly created apps `tsconfig.json`:
 
 ```bash
-"extends": "/libs/tsconfig.libs.json"
+"extends": "../../libs/tsconfig.libs.json"
 ```

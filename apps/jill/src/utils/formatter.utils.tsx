@@ -1,16 +1,18 @@
-import React from 'react';
-import { DropDownOption } from '../types';
+import { GENDER, IStaticResDto, SPECIES } from '@pdoc/types';
+import i18next from 'i18next';
 import { ReactComponent as CatSVG } from '../icons/cat.svg';
 import { ReactComponent as DogSVG } from '../icons/dog.svg';
-import i18next from 'i18next';
-import { GENDER, IStaticResDto, SPECIES } from '@pdoc/types';
+import { DropDownOption } from '../types';
 
 /**
  *
  * @param species {SPECIES}
  * @param size {number}
  */
-export const getPetPreviewAvatarBySpecies = (species: SPECIES, size = 48) => {
+export const getPetPreviewAvatarBySpecies = (
+  species: SPECIES,
+  size = 48,
+): JSX.Element => {
   const dictionary = {
     [SPECIES.CAT]: (
       <CatSVG data-test-id="cat-icon" width={size} height={size} />
@@ -42,3 +44,21 @@ export const mapStaticArrayToDropDownOptions = (staticArr: IStaticResDto[]) =>
   staticArr.map(
     ({ _id, name }) => ({ label: name, value: _id } as DropDownOption<string>),
   );
+
+export const getImageTypeFromBase64 = (base64: string): string => {
+  return (base64 as any).match(/:(.*?);/)[1];
+};
+
+export const dataURLtoFile = (dataurl: string): File => {
+  let arr = dataurl.split(',') as any,
+    mime = getImageTypeFromBase64(arr[0]),
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], `avatar.${mime}`, { type: mime });
+};

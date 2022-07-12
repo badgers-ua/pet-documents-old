@@ -98,6 +98,8 @@ const resources: Resource = {
       resetFilters: 'Reset filters',
       onlyUpcoming: 'Only future',
       sorting: 'Sorting',
+      uploadPhoto: 'Upload photo',
+      submit: 'Submit',
     },
   },
   uk: {
@@ -194,6 +196,8 @@ const resources: Resource = {
       resetFilters: 'Скинути фільтри',
       onlyUpcoming: 'Лише майбутні',
       sorting: 'Сортування',
+      uploadPhoto: 'Завантажити фото',
+      submit: 'Застосувати',
     },
   },
 };

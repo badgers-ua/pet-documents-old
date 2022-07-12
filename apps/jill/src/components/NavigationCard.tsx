@@ -1,5 +1,5 @@
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { CardActionArea } from '@mui/material';
+import CardActionArea from '@mui/material/CardActionArea';
 import Box from '@mui/material/Box';
 import Card, { CardProps } from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';

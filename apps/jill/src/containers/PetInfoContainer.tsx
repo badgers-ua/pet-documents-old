@@ -5,7 +5,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PaletteIcon from '@mui/icons-material/Palette';
 import PeopleIcon from '@mui/icons-material/People';
-import Avatar from '@mui/material/Avatar';
 import Box, { BoxProps } from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -21,16 +20,14 @@ import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
+import PetAvatar from '../components/PetAvatar';
 import { ReactComponent as AddUserIcon } from '../icons/add-user.svg';
 import { ReactComponent as DeleteUserIcon } from '../icons/delete-user.svg';
 import { ReactComponent as GenderIcon } from '../icons/gender.svg';
 import { PetWithAvatarUrl } from '../types';
 import { getAge, getUserDateFormat } from '../utils/date.utils';
 import { getSpeciesLabel } from '../utils/factory.utils';
-import {
-  getGenderLabel,
-  getPetPreviewAvatarBySpecies,
-} from '../utils/formatter.utils';
+import { getGenderLabel } from '../utils/formatter.utils';
 
 type PetInfoProps = {
   pet: PetWithAvatarUrl;
@@ -59,11 +56,12 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
         <CardContent sx={{ paddingBottom: 0 }}>
           <Box display="flex">
             <Box minWidth="90px" maxWidth="90px" height="90px">
-              {avatar ? (
-                <Avatar src={avatar} sx={{ width: '90px', height: '90px' }} />
-              ) : (
-                getPetPreviewAvatarBySpecies(species, 90)
-              )}
+              <PetAvatar
+                isLoading={avatar === 'loading'}
+                size={90}
+                url={avatar}
+                species={species}
+              />
             </Box>
             <Box ml={2} flex={1}>
               <Box

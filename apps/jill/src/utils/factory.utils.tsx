@@ -1,19 +1,9 @@
-import Avatar from '@mui/material/Avatar';
-import {
-  EVENT,
-  GENDER,
-  IPetPreviewResDto,
-  IPetResDto,
-  SPECIES,
-} from '@pdoc/types';
+import { EVENT, GENDER, SPECIES } from '@pdoc/types';
 import { FirebaseStorage, getDownloadURL, ref } from 'firebase/storage';
 import i18next from 'i18next';
 import sortBy from 'lodash/sortBy';
 import { DropDownOption } from '../types';
-import {
-  getGenderLabel,
-  getPetPreviewAvatarBySpecies,
-} from './formatter.utils';
+import { getGenderLabel } from './formatter.utils';
 
 export const getEnumIntegerValues = <T,>(_enum: object) =>
   Object.values(_enum).filter((value: string | number) =>
@@ -101,22 +91,4 @@ export const getBucketDownloadUrl = async (
   } catch (e) {
     console.error('Failed generate avatar url');
   }
-};
-
-export const getPetWithAvatar = async (
-  pet: IPetPreviewResDto | IPetResDto,
-  storage: FirebaseStorage,
-  size: number,
-) => {
-  const { avatar: avatarUrl, species, ...other } = pet;
-  const avatar: JSX.Element = avatarUrl ? (
-    <Avatar
-      sx={{ height: size, width: size }}
-      src={await getBucketDownloadUrl(storage, avatarUrl)}
-    />
-  ) : (
-    getPetPreviewAvatarBySpecies(species, size)
-  );
-  const petWithAvatar = { ...other, species, avatar };
-  return petWithAvatar;
 };

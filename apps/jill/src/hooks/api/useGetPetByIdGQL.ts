@@ -27,7 +27,7 @@ const useGetPetByIdGQL = (petId: string) => {
   });
 
   const [pet, setPet] = useState<{ getPet: PetWithAvatarUrl }>({
-    getPet: data?.getPet ? { ...data?.getPet, avatar: undefined } : undefined,
+    getPet: data?.getPet ? { ...data?.getPet, avatar: 'loading' } : undefined,
   });
 
   return { pet, isLoadingPet, petLoadingError };

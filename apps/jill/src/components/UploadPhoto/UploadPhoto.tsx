@@ -1,5 +1,5 @@
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Avatar, Tooltip } from '@mui/material';
+import { Avatar, CircularProgress, Tooltip } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,7 +13,7 @@ import Cropper, { ReactCropperElement } from 'react-cropper';
 import { useTranslation } from 'react-i18next';
 import {
   dataURLtoFile,
-  getImageTypyFromBase64,
+  getImageTypeFromBase64,
 } from '../../utils/formatter.utils';
 import './UploadPhoto.css';
 
@@ -69,7 +69,7 @@ const UploadPhoto = ({
 
     setOpenDialog(false);
 
-    const mime: string = getImageTypyFromBase64((cropper as any).url);
+    const mime: string = getImageTypeFromBase64((cropper as any).url);
     const croppedBase64: any = cropper
       .getCroppedCanvas()
       .toDataURL(mime, 80 / 100);
@@ -132,14 +132,23 @@ const UploadPhoto = ({
               cursor: 'pinter',
             }}
           >
-            <Avatar
-              src={cropData || initialPhoto}
-              sx={{
-                width: stackProps.width,
-                height: stackProps.height,
-                opacity: hover ? 0.3 : 1,
-              }}
-            ></Avatar>
+            {initialPhoto === 'loading' ? (
+              <Box
+                height={stackProps.height + 'px'}
+                width={stackProps.width + 'px'}
+              >
+                <CircularProgress size={stackProps.width + 'px'} />
+              </Box>
+            ) : (
+              <Avatar
+                src={cropData || initialPhoto}
+                sx={{
+                  width: stackProps.width,
+                  height: stackProps.height,
+                  opacity: hover ? 0.3 : 1,
+                }}
+              />
+            )}
             {hover && (
               <Tooltip title={t('uploadPhoto')} arrow>
                 <Box
@@ -160,7 +169,6 @@ const UploadPhoto = ({
             )}
           </Box>
         )}
-
         <>
           <Input
             accept="image/*"

@@ -37,7 +37,7 @@ const useGetPetProfileGQL = (petId: string) => {
   });
 
   const [data, setData] = useState<PetProfileGQLRes>({
-    getPet: res?.getPet ? { ...res?.getPet, avatar: undefined } : undefined,
+    getPet: res?.getPet ? { ...res?.getPet, avatar: 'loading' } : undefined,
     getEventsByPet: res?.getEventsByPet,
   });
   const [isLoading, setIsLoading] = useState<boolean>(loading);

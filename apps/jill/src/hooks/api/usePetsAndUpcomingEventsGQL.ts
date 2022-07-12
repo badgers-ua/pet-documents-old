@@ -50,7 +50,7 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
   );
 
   const [pets, setPets] = useState<PetPreviewWithAvatarUrl[]>(
-    data?.getPets?.map((p) => ({ ...p, avatar: undefined })) ?? [],
+    data?.getPets?.map((p) => ({ ...p, avatar: 'loading' })) ?? [],
   );
   const [isLoading, setIsLoading] = useState<boolean>(loading);
 

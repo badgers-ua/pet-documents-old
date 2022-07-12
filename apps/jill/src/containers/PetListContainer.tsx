@@ -1,4 +1,3 @@
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
@@ -6,9 +5,9 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import NavigationCard from '../components/NavigationCard';
+import PetAvatar from '../components/PetAvatar';
 import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
 import { getAge } from '../utils/date.utils';
-import { getPetPreviewAvatarBySpecies } from '../utils/formatter.utils';
 
 const avatarSize = 48;
 
@@ -33,17 +32,12 @@ const PetListContainer = () => {
                   >
                     <NavigationCard
                       avatar={
-                        avatar ? (
-                          <Avatar
-                            src={avatar}
-                            sx={{
-                              width: avatarSize + 'px',
-                              height: avatarSize + 'px',
-                            }}
-                          />
-                        ) : (
-                          getPetPreviewAvatarBySpecies(species, 48)
-                        )
+                        <PetAvatar
+                          isLoading={avatar === 'loading'}
+                          size={avatarSize}
+                          url={avatar}
+                          species={species}
+                        />
                       }
                       title={name}
                       subTitle={getAge(dateOfBirth ?? '')}

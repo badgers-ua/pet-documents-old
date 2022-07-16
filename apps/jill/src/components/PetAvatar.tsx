@@ -6,7 +6,7 @@ import { getPetPreviewAvatarBySpecies } from '../utils/formatter.utils';
 
 type PetAvatarProps = {
   url?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   size: number;
   species: SPECIES;
 };

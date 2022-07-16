@@ -1,6 +1,7 @@
-import { Owner } from 'src/shared/types';
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { GENDER, IPetResDto, IPetPreviewResDto, SPECIES } from '@pdoc/types';
+import { GENDER, IPetPreviewResDto, IPetResDto, SPECIES } from '@pdoc/types';
+import { Owner } from 'src/shared/types';
+import { PetDocument } from '../schemas/pet.schema';
 
 @ObjectType()
 export class Breed {
@@ -144,5 +145,33 @@ export class PetPreviewResDto
     );
     this.owners = owners;
     this.breed = breed;
+  }
+
+  public static fromPetDocument({
+    _id,
+    name,
+    owners,
+    species,
+    avatar,
+    breed,
+    colour,
+    dateOfBirth,
+    gender,
+    notes,
+    weight,
+  }: PetDocument): PetPreviewResDto {
+    return {
+      _id,
+      name,
+      owners,
+      species,
+      avatar,
+      breed,
+      colour,
+      dateOfBirth,
+      gender,
+      notes,
+      weight,
+    };
   }
 }

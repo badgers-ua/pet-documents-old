@@ -33,7 +33,6 @@ const PetListContainer = () => {
                     <NavigationCard
                       avatar={
                         <PetAvatar
-                          isLoading={avatar === 'loading'}
                           size={avatarSize}
                           url={avatar}
                           species={species}

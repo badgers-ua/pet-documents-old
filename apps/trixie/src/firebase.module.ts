@@ -1,8 +1,8 @@
+import { Bucket } from '@google-cloud/storage';
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin/lib/credential';
 import { FB_AUTH_PROVIDER_KEY, FB_BUCKET_PROVIDER_KEY } from './_constants';
-import { Bucket } from '@google-cloud/storage';
 
 @Global()
 @Module({})

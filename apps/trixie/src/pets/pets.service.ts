@@ -305,8 +305,17 @@ export class PetsService {
       },
     );
 
+    const expires: number = new Date().setDate(new Date().getDate() + 7);
+
     const petResponse: PetResDto = {
       ...petDocument,
+      avatar: petDocument.avatar
+        ? (
+            await this._bucket
+              .file(petDocument.avatar)
+              .getSignedUrl({ expires, action: 'read' })
+          )[0]
+        : petDocument.avatar,
       owners,
     };
 
@@ -314,11 +323,28 @@ export class PetsService {
   }
 
   public async getPetsByOwner(ownerId: string): Promise<PetPreviewResDto[]> {
-    const pets: PetDocument[] = await this.petModel
+    const petDocuments: PetDocument[] = await this.petModel
       .find({ owners: { $in: [ownerId] } }, { __v: 0 })
       .exec();
-    // TODO: remove this shit
-    return pets as unknown as PetPreviewResDto[];
+
+    const expires: number = new Date().setDate(new Date().getDate() + 7);
+    const petPreviewResDtos: PetPreviewResDto[] = [];
+
+    for (let i = 0; i < petDocuments.length; i++) {
+      const petDoc = petDocuments[i];
+      petPreviewResDtos.push({
+        ...PetPreviewResDto.fromPetDocument(petDoc),
+        avatar: petDoc.avatar
+          ? (
+              await this._bucket
+                .file(petDoc.avatar)
+                .getSignedUrl({ expires, action: 'read' })
+            )[0]
+          : petDoc.avatar,
+      });
+    }
+
+    return petPreviewResDtos;
   }
 
   public async createPet(

@@ -56,12 +56,7 @@ const PetInfoCardContainer = (props: PetInfoProps) => {
         <CardContent sx={{ paddingBottom: 0 }}>
           <Box display="flex">
             <Box minWidth="90px" maxWidth="90px" height="90px">
-              <PetAvatar
-                isLoading={avatar === 'loading'}
-                size={90}
-                url={avatar}
-                species={species}
-              />
+              <PetAvatar size={90} url={avatar} species={species} />
             </Box>
             <Box ml={2} flex={1}>
               <Box

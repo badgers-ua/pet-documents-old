@@ -1,6 +1,6 @@
 import create, { SetState } from 'zustand';
-import { NODE_ENV } from '../../../types';
 import { devtools } from 'zustand/middleware';
+import { NODE_ENV } from '../../../types';
 
 export type ActivePetProfileTabState = {
   activeTab: number;

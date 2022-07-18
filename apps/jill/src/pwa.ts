@@ -1,5 +1,5 @@
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { disableUserSelect, isPWA } from './utils/platfom.utils';
 
 if (isPWA()) {

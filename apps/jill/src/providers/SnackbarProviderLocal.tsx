@@ -1,5 +1,5 @@
-import NotistackCloseButton from '../components/NotistackCloseButton';
 import { SnackbarKey, SnackbarProvider } from 'notistack';
+import NotistackCloseButton from '../components/NotistackCloseButton';
 import { Children } from '../types';
 
 const SnackbarProviderLocal = ({ children }: Children) => {

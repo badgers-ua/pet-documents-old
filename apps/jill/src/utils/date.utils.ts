@@ -1,5 +1,5 @@
-import { DateTime, DateTimeUnit } from 'luxon';
 import i18next from 'i18next';
+import { DateTime, DateTimeUnit } from 'luxon';
 
 export const getUserDateFormat = (): string => {
   const userDate: string = Intl.DateTimeFormat(

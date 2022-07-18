@@ -1,7 +1,6 @@
-import React from 'react';
+import { StoreApi } from 'zustand';
 import createContext from 'zustand/context';
 import { Children } from '../../../types';
-import { StoreApi } from 'zustand';
 import createActiveProfileTabStore, {
   ActivePetProfileTabState,
 } from './createActiveProfileTabStore';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSigninCheck, useUser } from 'reactfire';
 import Header from '../components/Header';
 import useSignOut from '../hooks/useSignOut';

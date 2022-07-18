@@ -1,4 +1,4 @@
-import { GENDER, IPetResDto, SPECIES, IPetPreviewResDto } from '@pdoc/types';
+import { GENDER, IPetPreviewResDto, IPetResDto, SPECIES } from '@pdoc/types';
 
 export enum NODE_ENV {
   DEV = 'development',

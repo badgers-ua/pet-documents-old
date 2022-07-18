@@ -1,6 +1,6 @@
-import { CircularProgress } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { SPECIES } from '@pdoc/types';
 import { getPetPreviewAvatarBySpecies } from '../utils/formatter.utils';
 

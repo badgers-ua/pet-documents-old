@@ -25,9 +25,9 @@ const CreateEventPage: React.LazyExoticComponent<() => JSX.Element> =
   React.lazy(() => import('./pages/CreateEventPage'));
 const UpdateEventPage: React.LazyExoticComponent<() => JSX.Element> =
   React.lazy(() => import('./pages/UpdateEventPage'));
-const SignInPage: React.LazyExoticComponent<() => JSX.Element> = React.lazy(
-  () => import('./pages/SignInPage'),
-);
+// const SignInPage: React.LazyExoticComponent<() => JSX.Element> = React.lazy(
+  // () => import('./pages/SignInPage'),
+// );
 
 const routes: Route[] = [
   {
@@ -60,11 +60,11 @@ const routes: Route[] = [
     Component: PetProfilePage,
     isProtected: true,
   },
-  {
-    path: '/sign-in',
-    Component: SignInPage,
-    isProtected: false,
-  },
+  // {
+  //   path: '/sign-in',
+  //   Component: SignInPage,
+  //   isProtected: false,
+  // },
 ];
 
 const RoutesLocal = () => {

@@ -26,7 +26,7 @@ const CreateEventPage: React.LazyExoticComponent<() => JSX.Element> =
 const UpdateEventPage: React.LazyExoticComponent<() => JSX.Element> =
   React.lazy(() => import('./pages/UpdateEventPage'));
 // const SignInPage: React.LazyExoticComponent<() => JSX.Element> = React.lazy(
-  // () => import('./pages/SignInPage'),
+// () => import('./pages/SignInPage'),
 // );
 
 const routes: Route[] = [

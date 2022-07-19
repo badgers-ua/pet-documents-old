@@ -3,6 +3,8 @@ echo Pulling changes
 cd ./apps/jill
 touch .env.production
 echo Fetching environment variables
+echo ${REACT_APP_PRODUCTION}
+echo $REACT_APP_PRODUCTION
 cat > .env.production <<EOF
     REACT_APP_PRODUCTION=${REACT_APP_PRODUCTION}
     REACT_APP_API_URL=${REACT_APP_API_URL}

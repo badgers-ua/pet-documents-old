@@ -30,6 +30,8 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           script: |
+            echo ${{secrets.JILL_REACT_APP_PRODUCTION}}
+            echo ${REACT_APP_PRODUCTION}
             cd ./pet-documents
             sh ./scripts/git-pull.sh
             sh ./scripts/deploy-jill.sh

@@ -5,8 +5,12 @@ name: Build & Deploy
 on:
   push:
     branches: ['main']
+    paths:
+      - 'apps/trixie'
   pull_request:
     branches: ['main']
+    paths:
+      - 'apps/trixie'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,20 +27,5 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           script: |
-            cd testDeploy/pet-documents
-            git pull
-            cd ./apps/trixie
-            touch .production.env
-            cat > .production.env <<EOF
-              DATABASE_URL=${{secrets.TRIXIE_DATABASE_URL}}
-              PORT=${{secrets.TRIXIE_PORT}}
-              FB_BUCKET_URL=${{secrets.TRIXIE_FB_BUCKET_URL}}
-              FB_SERVICE_ACCOUNT=${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
-            EOF
-            cd ../../
-            yarn
-            pm2 stop trixie
-            pm2 kill
-            yarn trixie-build
-            yarn trixie-start-prod
-            echo Deploy Successful
+            sh ./git-pull.sh
+            sh ./deploy-trixie.sh

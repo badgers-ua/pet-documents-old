@@ -1,9 +1,10 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 const graphqlUploadExpress = require('graphql-upload/graphqlUploadExpress.js');
 
 async function bootstrap(): Promise<void> {
+  console.log(1);
   const app = await NestFactory.create(AppModule);
   if (process.env.NODE_ENV == 'production') {
     const helmet = require('helmet');

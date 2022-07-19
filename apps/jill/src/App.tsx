@@ -11,6 +11,7 @@ import { Children } from './types';
 import { getHeaderHeight } from './utils/factory.utils';
 
 const App = () => {
+  console.log(1);
   const theme: any = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 

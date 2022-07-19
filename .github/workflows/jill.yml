@@ -1,4 +1,4 @@
-name: Deploy Jill
+name: Jill
 
 on:
   push:
@@ -25,5 +25,10 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           script: |
+            ls
+            cd ./.github
+            ls
+            cd ./.github/scripts/
+            ls
             sh ./.github/scripts/git-pull.sh
             sh ./.github/scripts/deploy-jill.sh

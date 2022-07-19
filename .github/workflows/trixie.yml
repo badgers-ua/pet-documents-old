@@ -3,6 +3,7 @@ name: Deploy Trixie
 on:
   workflow_run:
     workflows: ['Build Apps']
+    branches: [main]
     types:
       - completed
   push:

@@ -1,6 +1,6 @@
 #!/bin/bash
 echo Installing dependencies
-yarn install --production
+yarn install
 
 echo Fetching environment variables
 cd ./apps/jill

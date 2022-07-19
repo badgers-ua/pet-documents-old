@@ -1,6 +1,6 @@
 {
   "name": "@pdoc/jill",
-  "version": "1.2.13",
+  "version": "1.2.7",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.6.9",

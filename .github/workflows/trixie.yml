@@ -1,0 +1,29 @@
+name: Deploy Trixie
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'apps/trixie'
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'apps/trixie'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+          script: |
+            sh ../scripts/git-pull.sh
+            sh ../scripts/deploy-trixie.sh

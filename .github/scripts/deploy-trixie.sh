@@ -18,4 +18,4 @@ echo Building trixie
 yarn trixie-build
 echo Starting Trixie
 yarn trixie-start-prod
-echo Trixie deployed successfully
+echo trixie deployed successfully

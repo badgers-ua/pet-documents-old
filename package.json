@@ -12,6 +12,7 @@
     "start": "turbo run start --parallel",
     "prepare": "husky install",
     "lint": "turbo run prettier:fix",
+    "jill-build": "yarn workspace @pdoc/jill build",
     "trixie-build": "yarn workspace @pdoc/trixie build",
     "trixie-start-prod": "yarn workspace @pdoc/trixie start:prod",
     "graph": "turbo run build --graph=deps-graph.svg"

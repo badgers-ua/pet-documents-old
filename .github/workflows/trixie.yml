@@ -13,6 +13,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  DATABASE_URL: ${{secrets.TRIXIE_DATABASE_URL}}
+  PORT: ${{secrets.TRIXIE_PORT}}
+  FB_BUCKET_URL: ${{secrets.TRIXIE_FB_BUCKET_URL}}
+  FB_SERVICE_ACCOUNT: ${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,11 +26,6 @@ jobs:
     steps:
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.4
-        env:
-          DATABASE_URL: ${{secrets.TRIXIE_DATABASE_URL}}
-          PORT: ${{secrets.TRIXIE_PORT}}
-          FB_BUCKET_URL: ${{secrets.TRIXIE_FB_BUCKET_URL}}
-          FB_SERVICE_ACCOUNT: ${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
         with:
           host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}

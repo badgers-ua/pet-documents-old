@@ -32,6 +32,8 @@ jobs:
               FB_BUCKET_URL=${{secrets.TRIXIE_FB_BUCKET_URL}}
               FB_SERVICE_ACCOUNT=${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
             EOF
+            cd ../../
+            yarn
             pm2 stop trixie
             pm2 kill
             yarn start:prod

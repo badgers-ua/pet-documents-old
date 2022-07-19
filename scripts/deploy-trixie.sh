@@ -15,7 +15,7 @@ yarn
 pm2 stop trixie
 pm2 kill
 echo Building trixie
-yarn trixie-build
+yarn build
 echo Starting Trixie
 yarn trixie-start-prod
 echo trixie deployed successfully

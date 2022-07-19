@@ -12,7 +12,7 @@ cd ../../
 echo Installing dependencies
 yarn
 echo Building jill
-yarn jill-build
+yarn build
 echo Deleting current jill build at /var/www/p-doc.com/jill
 rm -r /var/www/p-doc.com/jill/*
 echo Copying jill build to /var/www/p-doc.com/jill

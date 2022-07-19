@@ -2,7 +2,7 @@ name: Deploy Jill
 
 on:
   workflow_run:
-    workflows: ['Build']
+    workflows: ['Build Apps']
     types:
       - completed
   push:

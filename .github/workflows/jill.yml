@@ -25,6 +25,6 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           script: |
-            cd ./pet-documents/scripts
-            sh git-pull.sh
-            sh deploy-jill.sh
+            cd ./pet-documents
+            sh ./scripts/git-pull.sh
+            sh ./scripts/deploy-jill.sh

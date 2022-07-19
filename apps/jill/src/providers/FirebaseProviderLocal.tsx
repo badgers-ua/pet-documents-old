@@ -10,9 +10,11 @@ import {
 } from 'reactfire';
 import { Children } from '../types';
 
-const firebaseConfig: FirebaseOptions = JSON.parse(
-  process.env.REACT_APP_FIREBASE_CONFIG ?? '',
-);
+const stringifiedFirebaseConfig = (
+  process.env.REACT_APP_FIREBASE_CONFIG ?? ''
+).toString();
+
+const firebaseConfig: FirebaseOptions = JSON.parse(stringifiedFirebaseConfig);
 
 const FirebaseProviderLocal = ({ children }: Children) => {
   return (

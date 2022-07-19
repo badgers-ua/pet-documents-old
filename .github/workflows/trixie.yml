@@ -1,6 +1,10 @@
-name: Trixie
+name: Deploy Trixie
 
 on:
+  workflow_run:
+    workflows: ['Build']
+    types:
+      - completed
   push:
     branches: ['main']
     paths:
@@ -18,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Deploy
+      - name: Deploy Trixie
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{secrets.SSH_HOST}}
@@ -26,5 +30,4 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           script: |
             cd ./pet-documents
-            sh ./scripts/git-pull.sh
-            sh ./scripts/deploy-trixie.sh ${{secrets.TRIXIE_DATABASE_URL}} ${{secrets.TRIXIE_PORT}} ${{secrets.TRIXIE_FB_BUCKET_URL}} ${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
+            sh ./scripts/deploy-trixie.sh

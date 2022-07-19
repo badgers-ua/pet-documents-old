@@ -36,6 +36,6 @@ jobs:
             yarn
             pm2 stop trixie
             pm2 kill
-            yarn build
+            yarn trixie-build
             yarn trixie-start-prod
             echo Deploy Successful

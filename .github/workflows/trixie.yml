@@ -13,12 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  DATABASE_URL: ${{secrets.TRIXIE_DATABASE_URL}}
-  PORT: ${{secrets.TRIXIE_PORT}}
-  FB_BUCKET_URL: ${{secrets.TRIXIE_FB_BUCKET_URL}}
-  FB_SERVICE_ACCOUNT: ${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -33,4 +27,4 @@ jobs:
           script: |
             cd ./pet-documents
             sh ./scripts/git-pull.sh
-            sh ./scripts/deploy-trixie.sh
+            sh ./scripts/deploy-trixie.sh ${{secrets.TRIXIE_DATABASE_URL}} ${{secrets.TRIXIE_PORT}} ${{secrets.TRIXIE_FB_BUCKET_URL}} ${{secrets.TRIXIE_FB_SERVICE_ACCOUNT}}

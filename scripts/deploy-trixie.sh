@@ -4,10 +4,10 @@ cd ./apps/trixie
 touch .production.env
 echo Fetching environment variables
 cat > .production.env <<EOF
-    DATABASE_URL=${DATABASE_URL}
-    PORT=${PORT}
-    FB_BUCKET_URL=${FB_BUCKET_URL}
-    FB_SERVICE_ACCOUNT=${FB_SERVICE_ACCOUNT}
+    DATABASE_URL=${1}
+    PORT=${2}
+    FB_BUCKET_URL=${3}
+    FB_SERVICE_ACCOUNT=${4}
 EOF
 cd ../../
 echo Installing dependencies

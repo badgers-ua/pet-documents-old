@@ -3,12 +3,11 @@ echo Pulling changes
 cd ./apps/jill
 touch .env.production
 echo Fetching environment variables
-echo ${REACT_APP_PRODUCTION}
-echo $REACT_APP_PRODUCTION
+echo ${1}
 cat > .env.production <<EOF
-    REACT_APP_PRODUCTION=${REACT_APP_PRODUCTION}
-    REACT_APP_API_URL=${REACT_APP_API_URL}
-    REACT_APP_FIREBASE_CONFIG=${REACT_APP_FIREBASE_CONFIG}
+    REACT_APP_PRODUCTION=${1}
+    REACT_APP_API_URL=${2}
+    REACT_APP_FIREBASE_CONFIG=${3}
 EOF
 cd ../../
 echo Installing dependencies

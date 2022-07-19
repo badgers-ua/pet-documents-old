@@ -13,11 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  REACT_APP_PRODUCTION: ${{secrets.JILL_REACT_APP_PRODUCTION}}
-  REACT_APP_API_URL: ${{secrets.JILL_REACT_APP_API_URL}}
-  REACT_APP_FIREBASE_CONFIG: ${{secrets.JILL_REACT_APP_FIREBASE_CONFIG}}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,4 +29,4 @@ jobs:
             echo ${REACT_APP_PRODUCTION}
             cd ./pet-documents
             sh ./scripts/git-pull.sh
-            sh ./scripts/deploy-jill.sh
+            sh ./scripts/deploy-jill.sh ${{secrets.JILL_REACT_APP_PRODUCTION}} ${{secrets.JILL_REACT_APP_API_URL}} ${{secrets.JILL_REACT_APP_FIREBASE_CONFIG}}

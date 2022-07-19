@@ -16,7 +16,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.4

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo Pulling changes
 cd ./apps/trixie
 touch .production.env

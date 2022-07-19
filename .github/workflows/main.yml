@@ -22,7 +22,14 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           script: |
-            mkdir testDeploy
-            cd testDeploy
-            git clone git@github.com:badgers-ua/pet-documents.git
+            cd testDeploy/pet-documents
+            git pull
+            cd ./apps/trixie
+            touch .production.env
+            cat > .production.env <<EOF
+              DATABASE_URL=${{secrets.TRIXIE_DATABASE_URL}}
+              PORT=${{secrets.TRIXIE_PORT}}
+              FB_BUCKET_URL=${{secrets.TRIXIE_FB_BUCKET_URL}}
+            EOF
+
             echo Deploy Successful

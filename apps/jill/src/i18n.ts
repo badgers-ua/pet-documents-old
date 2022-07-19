@@ -1,7 +1,7 @@
 import i18n, { Resource } from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import { NODE_ENV } from './types';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
 const resources: Resource = {
   en: {
@@ -214,5 +214,11 @@ i18n
     },
     react: { useSuspense: true },
   });
+
+document.documentElement.lang = i18n.language;
+
+i18n.on('languageChanged', (lng: string) => {
+  document.documentElement.setAttribute('lang', lng);
+});
 
 export default i18n;

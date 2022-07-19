@@ -1,16 +1,16 @@
+import { EVENT, IEventResDto } from '@pdoc/types';
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import CenteredNoDataMessage from '../../components/CenteredNoDataMessage';
+import useGetEventByIdGQL from '../../hooks/api/useGetEventByIdGQL';
+import useUpdateEventGQL from '../../hooks/api/useUpdateEventGQL';
+import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
 import { DropDownOption, PatchEventReqDto } from '../../types';
+import { getEventLabel } from '../../utils/factory.utils';
 import CreateUpdateEventForm, {
   CRUEventFormValues,
 } from './_CreateUpdateEventForm';
-import { DateTime } from 'luxon';
-import CenteredNoDataMessage from '../../components/CenteredNoDataMessage';
-import { getEventLabel } from '../../utils/factory.utils';
-import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
-import useGetEventByIdGQL from '../../hooks/api/useGetEventByIdGQL';
-import useUpdateEventGQL from '../../hooks/api/useUpdateEventGQL';
-import { EVENT, IEventResDto } from '@pdoc/types';
 
 export const UpdateEventContainer = () => {
   const { t } = useTranslation();

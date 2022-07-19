@@ -1,8 +1,7 @@
-import React from 'react';
-import createContext from 'zustand/context';
-import createLoaderStore, { LoaderState } from './createLoaderStore';
-import { Children } from '../../../types';
 import { StoreApi } from 'zustand';
+import createContext from 'zustand/context';
+import { Children } from '../../../types';
+import createLoaderStore, { LoaderState } from './createLoaderStore';
 
 const Context = createContext<StoreApi<LoaderState>>();
 

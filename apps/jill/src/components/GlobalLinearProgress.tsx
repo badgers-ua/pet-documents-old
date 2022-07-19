@@ -1,5 +1,4 @@
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
-import React from 'react';
 import { useLoaderStore } from '../providers/store/loader/LoaderStoreProvider';
 
 const GlobalLinearProgress = () => {

@@ -1,5 +1,5 @@
-import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import { SnackbarKey, useSnackbar } from 'notistack';
 
 export type NotistackCloseButtonProps = {

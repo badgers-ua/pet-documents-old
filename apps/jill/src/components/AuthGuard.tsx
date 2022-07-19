@@ -1,4 +1,4 @@
-import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { useAuth, useSigninCheck } from 'reactfire';
 
 const AuthGuard = ({ children }: { children: JSX.Element }) => {

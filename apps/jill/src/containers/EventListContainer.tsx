@@ -1,16 +1,16 @@
-import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
+import EventIcon from '@mui/icons-material/Event';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import { IEventResDto } from '@pdoc/types';
+import { DateTime } from 'luxon';
+import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import NavigationCard from '../components/NavigationCard';
-import EventIcon from '@mui/icons-material/Event';
-import { DateTime } from 'luxon';
+import usePetsAndUpcomingEventsGQL from '../hooks/api/usePetsAndUpcomingEventsGQL';
 import { getUserDateFormat } from '../utils/date.utils';
-import { useTranslation } from 'react-i18next';
 import { getEventLabel } from '../utils/factory.utils';
-import { IEventResDto } from '@pdoc/types';
 
 const EventListContainer = () => {
   const { todayEvents, upcomingEvents } = usePetsAndUpcomingEventsGQL();

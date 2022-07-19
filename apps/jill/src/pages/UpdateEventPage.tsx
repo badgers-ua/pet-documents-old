@@ -1,4 +1,3 @@
-import React from 'react';
 import { UpdateEventContainer } from '../containers/CreateUpdateEvent/UpdateEventContainer';
 
 const UpdateEventPage = () => {

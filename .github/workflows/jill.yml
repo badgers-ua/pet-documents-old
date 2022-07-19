@@ -27,5 +27,7 @@ jobs:
           script: |
             cd ./pet-documents
             ls
-            sh ./.github/scripts/git-pull.sh
-            sh ./.github/scripts/deploy-jill.sh
+            cd ./scripts
+            ls
+            sh git-pull.sh
+            sh deploy-jill.sh

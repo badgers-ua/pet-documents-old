@@ -1,6 +1,6 @@
 {
   "name": "@pdoc/jill",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -44,7 +44,10 @@
     "workbox-strategies": "^6.5.3",
     "workbox-streams": "^6.5.3",
     "yup": "^0.32.11",
-    "zustand": "^4.0.0-rc.1"
+    "zustand": "^4.0.0-rc.2",
+    "@welldone-software/why-did-you-render": "^7.0.1",
+    "@types/luxon": "^2.3.2",
+    "@types/react-dom": "^18.0.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -52,11 +55,8 @@
     "@testing-library/user-event": "^14.2.1",
     "@types/jest": "^28.1.4",
     "@types/lodash": "^4.14.182",
-    "@types/luxon": "^2.3.2",
     "@types/react": "^18.0.14",
-    "@types/react-dom": "^18.0.5",
-    "@types/yup": "^0.29.14",
-    "@welldone-software/why-did-you-render": "^7.0.1"
+    "@types/yup": "^0.29.14"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -4,11 +4,11 @@ on:
   push:
     branches: ['main']
     paths:
-      - 'apps/trixie'
+      - 'apps/trixie/**'
   pull_request:
     branches: ['main']
     paths:
-      - 'apps/trixie'
+      - 'apps/trixie/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

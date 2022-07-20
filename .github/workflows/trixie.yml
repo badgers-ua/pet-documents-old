@@ -9,10 +9,12 @@ on:
       branches: ['main']
       paths:
         - 'apps/trixie/**'
+        - 'libs/types/**'
     pull_request:
       branches: ['main']
       paths:
         - 'apps/trixie/**'
+        - 'libs/types/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

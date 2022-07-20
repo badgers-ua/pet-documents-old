@@ -38,6 +38,7 @@ export enum EVENT {
   PAIRING,
   ESTRUS,
   MOLT,
+  OTHER,
 }
 
 export interface IStaticResDto {

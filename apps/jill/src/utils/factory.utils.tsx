@@ -63,6 +63,7 @@ export const getEventLabel = (event: EVENT) => {
     [EVENT.PAIRING]: i18next.t('eventPairing'),
     [EVENT.ESTRUS]: i18next.t('eventEstrus'),
     [EVENT.MOLT]: i18next.t('eventMolt'),
+    [EVENT.OTHER]: i18next.t('other'),
   };
   return dictionary[event];
 };

@@ -100,6 +100,7 @@ const resources: Resource = {
       sorting: 'Sorting',
       uploadPhoto: 'Upload photo',
       submit: 'Submit',
+      other: 'Other',
     },
   },
   uk: {
@@ -198,6 +199,7 @@ const resources: Resource = {
       sorting: 'Сортування',
       uploadPhoto: 'Завантажити фото',
       submit: 'Застосувати',
+      other: 'Інше',
     },
   },
 };

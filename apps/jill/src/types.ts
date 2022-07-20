@@ -43,6 +43,7 @@ export interface CreateEventReqDto {
 
 export interface PatchPetReqDto extends PetReqDto {
   _id: string;
+  isAvatarChanged: boolean;
 }
 
 export interface PatchEventReqDto extends CreateEventReqDto {

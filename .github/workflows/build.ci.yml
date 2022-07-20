@@ -28,3 +28,4 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn build
+        id: build_ci

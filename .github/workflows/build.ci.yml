@@ -22,10 +22,10 @@ jobs:
         id: yarn-cache
         with:
           path: |
-            .yarn/cache
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn build
-        id: build_ci

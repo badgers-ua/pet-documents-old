@@ -3,6 +3,8 @@ name: Build Apps CI
 on:
   pull_request:
     branches: [develop, main]
+  push:
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

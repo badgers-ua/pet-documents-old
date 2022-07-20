@@ -50,6 +50,7 @@ const UpdatePetContainer = () => {
       weight: Number.isInteger(Number.parseFloat(weight)) ? +weight : null,
       colour: !!color ? color : null,
       notes: !!description ? description : null,
+      isAvatarChanged: avatar instanceof File,
     };
 
     loadUpdatePet(patchPetReqDto, avatar);

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
-import { PATCH_PET_SCHEMA, PET_SCHEMA, PETS_SCHEMA } from './schemas';
-import { PatchPetReqDto } from '../../types';
 import { useMemo } from 'react';
+import { PatchPetReqDto } from '../../types';
+import { PATCH_PET_SCHEMA, PETS_SCHEMA, PET_SCHEMA } from './schemas';
 
 type UseUpdatePetGQLProps = {
   petId: string;
@@ -23,9 +23,8 @@ const useUpdatePetGQL = ({ petId, onCompleted }: UseUpdatePetGQLProps) => {
   const loadUpdatePet = useMemo(
     () => (patchPetReqDto: PatchPetReqDto, avatar: File | null) => {
       const body: any = { patchPetReqDto };
-      if (avatar instanceof File) {
+      if (patchPetReqDto.isAvatarChanged) {
         body.avatar = avatar;
-        body.patchPetReqDto.isAvatarChanged = true;
       }
       return updatePet({ variables: body });
     },

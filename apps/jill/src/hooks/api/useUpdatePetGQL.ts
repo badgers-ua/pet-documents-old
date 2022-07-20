@@ -1,7 +1,11 @@
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
 import { useMemo } from 'react';
 import { PatchPetReqDto } from '../../types';
-import { PATCH_PET_SCHEMA, PETS_SCHEMA, PET_SCHEMA } from './schemas';
+import {
+  PATCH_PET_SCHEMA,
+  PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL,
+  PET_SCHEMA,
+} from './schemas';
 
 type UseUpdatePetGQLProps = {
   petId: string;
@@ -13,7 +17,7 @@ const useUpdatePetGQL = ({ petId, onCompleted }: UseUpdatePetGQLProps) => {
     PATCH_PET_SCHEMA,
     {
       refetchQueries: [
-        { query: PETS_SCHEMA },
+        { query: PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL },
         { query: PET_SCHEMA, variables: { id: petId } },
       ],
       onCompleted,

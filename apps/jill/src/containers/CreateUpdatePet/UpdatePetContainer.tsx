@@ -1,4 +1,4 @@
-import { GENDER, SPECIES } from '@pdoc/types';
+import { GENDER, IPetResDto, SPECIES } from '@pdoc/types';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import CenteredNoDataMessage from '../../components/CenteredNoDataMessage';
 import useGetPetByIdGQL from '../../hooks/api/useGetPetByIdGQL';
 import useUpdatePetGQL from '../../hooks/api/useUpdatePetGQL';
 import useSetLoadingStatus from '../../hooks/useSetLoadingStatus';
-import { DropDownOption, PatchPetReqDto, PetWithAvatarUrl } from '../../types';
+import { DropDownOption, PatchPetReqDto } from '../../types';
 import { getDateWithMidnightUTCTime } from '../../utils/date.utils';
 import { getSpeciesLabel } from '../../utils/factory.utils';
 import { getGenderLabel } from '../../utils/formatter.utils';
@@ -74,7 +74,7 @@ const UpdatePetContainer = () => {
       notes,
       avatar,
     },
-  }: { getPet: PetWithAvatarUrl } = pet;
+  }: { getPet: IPetResDto } = pet;
 
   const initialValues: CRUPetFormValues = {
     name,

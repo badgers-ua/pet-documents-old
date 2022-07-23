@@ -1,15 +1,3 @@
-interface IPetBase {
-  _id: string;
-  name: string;
-  species: SPECIES;
-  gender?: GENDER;
-  dateOfBirth?: string;
-  colour?: string;
-  notes?: string;
-  weight?: number;
-  avatar?: string;
-}
-
 export enum SPECIES {
   CAT,
   DOG,
@@ -57,16 +45,22 @@ export interface IOwner {
   avatar?: string;
 }
 
-export interface IBreed extends IStaticResDto {}
-
-export interface IPetResDto extends IPetBase {
-  owners: IOwner[];
-  breed?: IBreed;
+export interface IBreed extends Partial<Omit<IStaticResDto, '_id'>> {
+  _id: string;
 }
 
-export interface IPetPreviewResDto extends IPetBase {
-  owners: string[];
-  breed?: string;
+export interface IPetResDto {
+  _id: string;
+  name: string;
+  species: SPECIES;
+  gender?: GENDER;
+  dateOfBirth?: string;
+  colour?: string;
+  notes?: string;
+  weight?: number;
+  avatar?: string;
+  owners: IOwner[];
+  breed?: IBreed;
 }
 
 export interface IEventResDto {

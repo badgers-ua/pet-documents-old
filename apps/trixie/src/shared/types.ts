@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IOwner } from '@pdoc/types';
+import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 
 @ObjectType()
 export class Owner implements IOwner {
@@ -11,4 +12,18 @@ export class Owner implements IOwner {
   name?: string;
   @Field()
   avatar?: string;
+
+  public static fromAuthUser({
+    uid,
+    displayName,
+    photoURL,
+    email,
+  }: UserRecord): Owner {
+    return {
+      _id: uid,
+      name: displayName,
+      avatar: photoURL,
+      email,
+    };
+  }
 }

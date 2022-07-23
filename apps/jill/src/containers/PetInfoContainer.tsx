@@ -17,6 +17,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { IPetResDto } from '@pdoc/types';
 import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
@@ -24,13 +25,12 @@ import PetAvatar from '../components/PetAvatar';
 import { ReactComponent as AddUserIcon } from '../icons/add-user.svg';
 import { ReactComponent as DeleteUserIcon } from '../icons/delete-user.svg';
 import { ReactComponent as GenderIcon } from '../icons/gender.svg';
-import { PetWithAvatarUrl } from '../types';
 import { getAge, getUserDateFormat } from '../utils/date.utils';
 import { getSpeciesLabel } from '../utils/factory.utils';
 import { getGenderLabel } from '../utils/formatter.utils';
 
 type PetInfoProps = {
-  pet: PetWithAvatarUrl;
+  pet: IPetResDto;
   petActions: PetActionsProps;
 } & BoxProps;
 

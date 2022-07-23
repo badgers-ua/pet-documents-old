@@ -16,6 +16,10 @@ export class UsersService {
     return this.auth.getUsers(identifiers);
   }
 
+  public getAllUsers(): Promise<auth.ListUsersResult> {
+    return this.auth.listUsers();
+  }
+
   public getUserById(uid: string): Promise<auth.UserRecord> {
     return this.auth.getUser(uid);
   }

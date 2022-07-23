@@ -1,34 +1,67 @@
 import { UseGuards } from '@nestjs/common';
-import { PetsService } from './pets.service';
-import { PatchPetReqDto, PetReqDto } from './dto/pet-req.dto';
+import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { auth } from 'firebase-admin';
+import { FieldsByTypeName, parseResolveInfo } from 'graphql-parse-resolve-info';
+import { MongoIdReqDto } from '../shared/dto/mongo-id-req.dto';
+import { FirebaseAuthGuard } from '../shared/guards/firebase-auth/firebase-auth-guard';
 import { User } from '../utils/decorators';
+import { AddOwnerReqDto } from './dto/add-owner-req.dto';
+import { AddOwnerResDto } from './dto/add-owner-res.dto';
+import { DeletePetReqDto } from './dto/delete-pet-req.dto';
+import { DeletePetResDto } from './dto/delete-pet-res.dto';
+import { PatchPetReqDto, PetReqDto } from './dto/pet-req.dto';
 import {
   CreatedPetResDto,
   PatchedPetResDto,
-  PetPreviewResDto,
   PetResDto,
 } from './dto/pet-res.dto';
-import { FirebaseAuthGuard } from '../shared/guards/firebase-auth/firebase-auth-guard';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { MongoIdReqDto } from '../shared/dto/mongo-id-req.dto';
-import { auth } from 'firebase-admin';
-import { AddOwnerResDto } from './dto/add-owner-res.dto';
-import { RemoveOwnerResDto } from './dto/remove-owner-res.dto';
 import { RemoveOwnerReqDto } from './dto/remove-owner-req.dto';
-import { DeletePetReqDto } from './dto/delete-pet-req.dto';
-import { DeletePetResDto } from './dto/delete-pet-res.dto';
-import { AddOwnerReqDto } from './dto/add-owner-req.dto';
+import { RemoveOwnerResDto } from './dto/remove-owner-res.dto';
+import { PetsService } from './pets.service';
 const GraphQLUpload = require('graphql-upload/GraphQLUpload.js');
+
 @Resolver()
 @UseGuards(FirebaseAuthGuard)
 export class PetsResolver {
   constructor(private readonly petService: PetsService) {}
 
-  @Query(() => [PetPreviewResDto], { name: 'getPets' })
+  @Query(() => [PetResDto], { name: 'getPets' })
   public getPets(
     @User() { uid }: auth.UserRecord,
-  ): Promise<PetPreviewResDto[]> {
-    return this.petService.getPetsByOwner(uid);
+    @Info() info,
+  ): Promise<PetResDto[]> {
+    const parsedInfo: FieldsByTypeName = parseResolveInfo(
+      info,
+    ) as FieldsByTypeName;
+
+    const isBreedDetailsRequested = () => {
+      const requestedBreedFields: FieldsByTypeName = (
+        parsedInfo.fieldsByTypeName.PetResDto as any
+      )?.breed.fieldsByTypeName.Breed;
+
+      const requestedBreedKeys: string[] = Object.keys(requestedBreedFields);
+      const isBreedDetailsRequested =
+        requestedBreedKeys.includes('_id') && requestedBreedKeys.length > 1;
+      return isBreedDetailsRequested;
+    };
+
+    const isOwnerDetailsRequested = () => {
+      const requestedOwnerFields: FieldsByTypeName = (
+        parsedInfo.fieldsByTypeName.PetResDto as any
+      )?.owners.fieldsByTypeName.Owner;
+
+      const requestedOwnerKeys: string[] = Object.keys(requestedOwnerFields);
+
+      const isOwnerDetailsRequested: boolean =
+        requestedOwnerKeys.includes('_id') && requestedOwnerKeys.length > 1;
+      return isOwnerDetailsRequested;
+    };
+
+    return this.petService.getPetsByOwner(
+      uid,
+      isBreedDetailsRequested(),
+      isOwnerDetailsRequested(),
+    );
   }
 
   @Query(() => PetResDto, { name: 'getPet', nullable: true })

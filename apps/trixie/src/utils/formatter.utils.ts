@@ -44,23 +44,3 @@ export const removeFromArrayByIndexes = (arr: any[], indexesArr: number[]) => {
   }
   return _arr;
 };
-
-/**
- *
- * @param isoDate: {string} ISO DateTime
- */
-export const getDateWithMidnightUTCTime = (isoDate: string): string => {
-  const dateTimeMidnightLocal: DateTime = DateTime.fromISO(
-    DateTime.fromISO(isoDate).toISODate(),
-  );
-  const dateTimeMidnightUTC = DateTime.utc(
-    dateTimeMidnightLocal.year,
-    dateTimeMidnightLocal.month,
-    dateTimeMidnightLocal.day,
-    dateTimeMidnightLocal.hour,
-    dateTimeMidnightLocal.minute,
-    dateTimeMidnightLocal.second,
-    dateTimeMidnightLocal.millisecond,
-  );
-  return dateTimeMidnightUTC.toISO();
-};

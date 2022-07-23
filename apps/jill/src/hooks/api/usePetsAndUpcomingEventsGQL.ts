@@ -1,18 +1,18 @@
 import { useQuery } from '@apollo/client';
-import { IEventResDto } from '@pdoc/types';
+import { IEventResDto, IPetResDto } from '@pdoc/types';
 import sortBy from 'lodash/sortBy';
-import { isLoading, PetPreviewWithAvatarUrl } from '../../types';
+import { isLoading } from '../../types';
 import { isToday } from '../../utils/date.utils';
 import { PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL } from './schemas';
 
 export type PetsAndUpcomingEvents = {
-  pets: PetPreviewWithAvatarUrl[];
+  pets: IPetResDto[];
   upcomingEvents: IEventResDto[];
   todayEvents: IEventResDto[];
 } & isLoading;
 
 interface PetsAndUpcomingEventsGQLRes {
-  getPets: PetPreviewWithAvatarUrl[];
+  getPets: IPetResDto[];
   getUpcomingEvents: IEventResDto[];
 }
 
@@ -29,7 +29,7 @@ const usePetsAndUpcomingEventsGQL = (): PetsAndUpcomingEvents => {
     getUpcomingEvents: [],
   };
 
-  const sortedPets: PetPreviewWithAvatarUrl[] = sortBy(pets, 'name') ?? [];
+  const sortedPets: IPetResDto[] = sortBy(pets, 'name') ?? [];
 
   const sortedUpcomingEvents: IEventResDto[] =
     sortBy(

@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client/react/hooks/useQuery';
-import { IEventResDto } from '@pdoc/types';
-import { PetWithAvatarUrl } from '../../types';
+import { IEventResDto, IPetResDto } from '@pdoc/types';
 import { PET_PROFILE_GQL } from './schemas';
 
 export type PetProfileGQLRes = {
-  getPet: PetWithAvatarUrl;
+  getPet: IPetResDto;
   getEventsByPet: IEventResDto[];
 };
 

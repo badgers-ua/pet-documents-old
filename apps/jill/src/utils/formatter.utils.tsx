@@ -9,7 +9,7 @@ import { DropDownOption } from '../types';
  * @param species {SPECIES}
  * @param size {number}
  */
-export const getPetPreviewAvatarBySpecies = (
+export const getPetAvatarLogoBySpecies = (
   species: SPECIES,
   size = 48,
 ): JSX.Element => {

@@ -2,7 +2,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { SPECIES } from '@pdoc/types';
-import { getPetPreviewAvatarBySpecies } from '../utils/formatter.utils';
+import { getPetAvatarLogoBySpecies } from '../utils/formatter.utils';
 
 type PetAvatarProps = {
   url?: string;
@@ -30,7 +30,7 @@ const PetAvatar = ({ url, isLoading, species, size = 48 }: PetAvatarProps) => {
   return url ? (
     <Avatar src={url} sx={{ width: size + 'px', height: size + 'px' }} />
   ) : (
-    getPetPreviewAvatarBySpecies(species, size)
+    getPetAvatarLogoBySpecies(species, size)
   );
 };
 

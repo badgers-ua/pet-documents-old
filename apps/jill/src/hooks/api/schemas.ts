@@ -1,16 +1,18 @@
 import { gql } from '@apollo/client/core';
-import {
-  EVENT_FRAGMENT,
-  PET_FRAGMENT,
-  PET_PREVIEW_FRAGMENT,
-} from './fragments';
+import { EVENT_FRAGMENT, PET_FRAGMENT } from './fragments';
 
 export const PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL = gql`
-  ${PET_PREVIEW_FRAGMENT}
+  ${PET_FRAGMENT}
   ${EVENT_FRAGMENT}
   query petsAndUpcomingEvents {
     getPets {
-      ...PetPreview
+      ...Pet
+      owners {
+        _id
+      }
+      breed {
+        _id
+      }
     }
     getUpcomingEvents {
       ...Event
@@ -28,10 +30,16 @@ export const UPCOMING_EVENTS_SCHEMA = gql`
 `;
 
 export const PETS_SCHEMA = gql`
-  ${PET_PREVIEW_FRAGMENT}
+  ${PET_FRAGMENT}
   query getPets {
     getPets {
-      ...PetPreview
+      ...Pet
+      owners {
+        _id
+      }
+      breed {
+        _id
+      }
     }
   }
 `;
@@ -58,6 +66,15 @@ export const PET_SCHEMA = gql`
   query getPet($id: String!) {
     getPet(data: { _id: $id }) {
       ...Pet
+      owners {
+        _id
+        name
+        email
+      }
+      breed {
+        _id
+        name
+      }
     }
   }
 `;
@@ -68,6 +85,15 @@ export const PET_PROFILE_GQL = gql`
   query getPetProfile($petId: String!) {
     getPet(data: { _id: $petId }) {
       ...Pet
+      owners {
+        _id
+        name
+        email
+      }
+      breed {
+        _id
+        name
+      }
     }
     getEventsByPet(data: { petId: $petId }) {
       ...Event

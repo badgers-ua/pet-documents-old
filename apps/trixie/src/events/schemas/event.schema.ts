@@ -1,10 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { EVENT } from '@pdoc/types';
+import * as mongoose from 'mongoose';
 
 export type EventDocument = Event & mongoose.Document;
-export type AggregatedEventDocument = Event &
-  mongoose.Document & { petName: string };
+export type AggregatedEventDocument = EventDocument & { petName: string };
 
 @Schema()
 export class Event {

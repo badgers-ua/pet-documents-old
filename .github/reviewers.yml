@@ -1,6 +1,6 @@
 reviewers:
   defaults:
-    - team:default-reviewers
+    - team:pet-documents-team
 
 options:
   ignore_draft: true

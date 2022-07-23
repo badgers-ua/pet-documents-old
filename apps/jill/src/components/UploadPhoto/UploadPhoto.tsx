@@ -1,5 +1,6 @@
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
@@ -8,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import Stack, { StackProps } from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
-import Box from '@mui/system/Box';
 import 'cropperjs/dist/cropper.css';
 import { useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';

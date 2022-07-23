@@ -2,14 +2,15 @@ name: Build Apps CD
 
 on:
   workflow_run:
-    workflows: ['Build Apps CI']
+    workflows: [Build Apps CI]
     branches: [main]
     types: [completed]
     push:
-      branches: ['main']
+      branches: [main]
 
 jobs:
   build_cd:
+    name: Build CD
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10

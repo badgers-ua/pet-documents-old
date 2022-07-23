@@ -2,17 +2,18 @@ name: Deploy Jill
 
 on:
   workflow_run:
-    workflows: ['Build Apps CD']
+    workflows: [Build Apps CD]
     branches: [main]
     types: [completed]
     push:
-      branches: ['main']
+      branches: [main]
       paths:
         - 'apps/jill/**'
         - 'libs/types/**'
 
 jobs:
   deploy_jill:
+    name: Deploy Jill
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5

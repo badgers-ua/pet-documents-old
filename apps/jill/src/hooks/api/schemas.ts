@@ -1,50 +1,37 @@
 import { gql } from '@apollo/client/core';
-import { PET_COMMON_FRAGMENT } from './fragments';
+import {
+  EVENT_FRAGMENT,
+  PET_FRAGMENT,
+  PET_PREVIEW_FRAGMENT,
+} from './fragments';
 
 export const PETS_SCHEMA_AND_UPCOMING_EVENTS_GQL = gql`
-  ${PET_COMMON_FRAGMENT}
+  ${PET_PREVIEW_FRAGMENT}
+  ${EVENT_FRAGMENT}
   query petsAndUpcomingEvents {
     getPets {
-      ...PetCommon
+      ...PetPreview
     }
     getUpcomingEvents {
-      _id
-      type
-      petId
-      petName
-      date
-      description
+      ...Event
     }
   }
 `;
 
 export const UPCOMING_EVENTS_SCHEMA = gql`
+  ${EVENT_FRAGMENT}
   query getUpcomingEvents {
     getUpcomingEvents {
-      _id
-      type
-      petId
-      petName
-      date
-      description
+      ...Event
     }
   }
 `;
 
 export const PETS_SCHEMA = gql`
+  ${PET_PREVIEW_FRAGMENT}
   query getPets {
     getPets {
-      _id
-      name
-      species
-      owners
-      gender
-      dateOfBirth
-      colour
-      notes
-      weight
-      breed
-      avatar
+      ...PetPreview
     }
   }
 `;
@@ -67,72 +54,32 @@ export const CREATE_PET_SCHEMA = gql`
 `;
 
 export const PET_SCHEMA = gql`
+  ${PET_FRAGMENT}
   query getPet($id: String!) {
     getPet(data: { _id: $id }) {
-      _id
-      name
-      species
-      gender
-      dateOfBirth
-      colour
-      notes
-      weight
-      avatar
-      owners {
-        _id
-        name
-        email
-      }
-      breed {
-        _id
-        name
-      }
+      ...Pet
     }
   }
 `;
 
 export const PET_PROFILE_GQL = gql`
+  ${PET_FRAGMENT}
+  ${EVENT_FRAGMENT}
   query getPetProfile($petId: String!) {
     getPet(data: { _id: $petId }) {
-      _id
-      name
-      species
-      gender
-      dateOfBirth
-      colour
-      notes
-      weight
-      avatar
-      owners {
-        _id
-        name
-        email
-      }
-      breed {
-        _id
-        name
-      }
+      ...Pet
     }
     getEventsByPet(data: { petId: $petId }) {
-      _id
-      type
-      petId
-      petName
-      date
-      description
+      ...Event
     }
   }
 `;
 
 export const EVENTS_SCHEMA = gql`
+  ${EVENT_FRAGMENT}
   query getEventsByPet($petId: String!) {
     getEventsByPet(data: { petId: $petId }) {
-      _id
-      type
-      petId
-      petName
-      date
-      description
+      ...Event
     }
   }
 `;
@@ -178,14 +125,10 @@ export const PATCH_PET_SCHEMA = gql`
 `;
 
 export const EVENT_SCHEMA = gql`
+  ${EVENT_FRAGMENT}
   query getEvent($getEventReqDto: GetEventReqDto!) {
     getEvent(data: $getEventReqDto) {
-      _id
-      type
-      petId
-      petName
-      date
-      description
+      ...Event
     }
   }
 `;

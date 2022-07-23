@@ -1,8 +1,0 @@
-reviewers:
-  defaults:
-    - team:pet-documents-team
-
-options:
-  ignore_draft: true
-  ignored_keywords:
-    - WIP

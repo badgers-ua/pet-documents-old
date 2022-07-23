@@ -2,7 +2,7 @@ name: Build Apps CI
 
 on:
   pull_request:
-    branches: [develop, main]
+    types: [opened, reopened]
   push:
     branches: [main]
 

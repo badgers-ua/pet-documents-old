@@ -4,25 +4,24 @@ import {
   NotAcceptableException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { DateTime } from 'luxon';
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import {
-  AggregatedEventDocument,
-  Event,
-  EventDocument,
-} from './schemas/event.schema';
+import { Pet, PetDocument } from '../pets/schemas/pet.schema';
+import { PET_CRUD_ERROR } from '../pets/_constants';
 import { CreateEventReqDto } from './dto/create-event-req.dto';
-import { EVENT_CRUD_ERROR, EVENT_LIMIT_REACHED } from './_constants';
+import { DeleteEventResDto } from './dto/delete-event-res.dto';
 import {
   CreatedEventResDto,
   EventResDto,
   PatchedEventResDto,
 } from './dto/event-res.dto';
-import { DateTime } from 'luxon';
-import { PET_CRUD_ERROR } from '../pets/_constants';
-import { Pet, PetDocument } from '../pets/schemas/pet.schema';
-import { getDateWithMidnightUTCTime } from '../utils/formatter.utils';
-import { DeleteEventResDto } from './dto/delete-event-res.dto';
+import {
+  AggregatedEventDocument,
+  Event,
+  EventDocument,
+} from './schemas/event.schema';
+import { EVENT_CRUD_ERROR, EVENT_LIMIT_REACHED } from './_constants';
 
 @Injectable()
 export class EventsService {
@@ -104,7 +103,14 @@ export class EventsService {
           $match: {
             'event.date': {
               $gte: DateTime.fromISO(
-                getDateWithMidnightUTCTime(DateTime.now().toISO()),
+                DateTime.now()
+                  .set({
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0,
+                  })
+                  .toISO(),
               ).toJSDate(),
             },
           },

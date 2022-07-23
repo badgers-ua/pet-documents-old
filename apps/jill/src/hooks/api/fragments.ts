@@ -1,21 +1,5 @@
 import { gql } from '@apollo/client/core';
 
-export const PET_PREVIEW_FRAGMENT = gql`
-  fragment PetPreview on PetPreviewResDto {
-    _id
-    name
-    species
-    owners
-    gender
-    dateOfBirth
-    colour
-    avatar
-    notes
-    weight
-    breed
-  }
-`;
-
 export const PET_FRAGMENT = gql`
   fragment Pet on PetResDto {
     _id
@@ -27,15 +11,6 @@ export const PET_FRAGMENT = gql`
     notes
     weight
     avatar
-    owners {
-      _id
-      name
-      email
-    }
-    breed {
-      _id
-      name
-    }
   }
 `;
 

@@ -96,7 +96,7 @@ const PetProfilePage = () => {
     });
     setTimeout(() => {
       cache.evict({ id: petProfileCacheId });
-      cache.evict({ id: `PetPreviewResDto:${petId}` });
+      cache.evict({ id: `PetResDto:${petId}` });
       cache.gc();
     });
   };

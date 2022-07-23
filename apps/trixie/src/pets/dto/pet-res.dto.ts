@@ -1,14 +1,13 @@
 import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
-import { GENDER, IPetPreviewResDto, IPetResDto, SPECIES } from '@pdoc/types';
+import { GENDER, IBreed, IPetResDto, SPECIES } from '@pdoc/types';
 import { Owner } from 'src/shared/types';
-import { PetDocument } from '../schemas/pet.schema';
 
 @ObjectType()
-export class Breed {
+export class Breed implements IBreed {
   @Field()
   _id: string;
   @Field()
-  name: string;
+  name?: string;
 }
 
 @ObjectType()
@@ -105,73 +104,5 @@ export class PetResDto extends PetResponseBase implements IPetResDto {
     );
     this.owners = owners;
     this.breed = breed;
-  }
-}
-
-// TODO: Should be one query with PetResDto
-@ObjectType()
-export class PetPreviewResDto
-  extends PetResponseBase
-  implements IPetPreviewResDto
-{
-  @Field(() => [String])
-  public owners: string[];
-  @Field({ nullable: true })
-  public breed?: string;
-
-  constructor(
-    _id: string,
-    name: string,
-    species: SPECIES,
-    owners: string[],
-    breed?: string,
-    gender?: GENDER,
-    dateOfBirth?: string,
-    colour?: string,
-    notes?: string,
-    weight?: number,
-    avatar?: string,
-  ) {
-    super(
-      _id,
-      name,
-      species,
-      gender,
-      dateOfBirth,
-      colour,
-      notes,
-      weight,
-      avatar,
-    );
-    this.owners = owners;
-    this.breed = breed;
-  }
-
-  public static fromPetDocument({
-    _id,
-    name,
-    owners,
-    species,
-    avatar,
-    breed,
-    colour,
-    dateOfBirth,
-    gender,
-    notes,
-    weight,
-  }: PetDocument): PetPreviewResDto {
-    return {
-      _id,
-      name,
-      owners,
-      species,
-      avatar,
-      breed,
-      colour,
-      dateOfBirth,
-      gender,
-      notes,
-      weight,
-    };
   }
 }
